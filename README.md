@@ -2,8 +2,6 @@
 
 Averion Client is the Fabric-based Minecraft Java Edition client for the Averion ecosystem. It hosts Averion's own gameplay-facing client features and integrations. The separate Averion Launcher manages profiles, accounts, downloads and launch.
 
-Phase 01 adds an in-game HUD that shows Averion Client branding and the active Minecraft version. Press **F8** while playing to toggle it. A short notice confirms the change and the setting persists across restarts. To rebind it, find **Toggle Averion HUD** under **Averion Client** in Minecraft's Controls or Key Binds screen. [Configuration](docs/CONFIGURATION.md), [Feature system](docs/FEATURE_SYSTEM.md).
-
 The target catalog covers all **40 stable Minecraft Java Edition releases** from **1.16** (also called 1.16.0) through **26.3**. The [compatibility matrix](docs/MULTI_VERSION_SUPPORT.md) lists the game Java and Fabric API pins and distinguishes build results from gameplay verification.
 
 ## Build

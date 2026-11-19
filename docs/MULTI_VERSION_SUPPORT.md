@@ -60,7 +60,9 @@ All 40 targets passed local Gradle builds, production JAR checks, and 21 shared 
 - **1.21.6–1.21.11** registers a Fabric HUD layer. Starting in 1.21.9, the Averion Controls entry uses an identified keybinding category.
 - **26.1–26.3** uses unobfuscated game names and GuiGraphicsExtractor. Starting in 26.2, screen and overlay state come from Minecraft's `Gui` object. [Fabric HUD registry](https://maven.fabricmc.net/docs/fabric-api-0.129.0%2B1.21.7/net/fabricmc/fabric/api/client/rendering/v1/hud/HudElementRegistry.html), [Fabric mapping transition](https://fabricmc.net/2026/03/14/261.html), [Fabric 26.2 GUI changes](https://fabricmc.net/2026/06/15/262.html).
 
-Gradle compiles the shared HUD layout, input actions, notifications, settings, and lifecycle state for every target. Targets through 1.21.11 use Loom's remapping plugin and produce intermediary production jars. Starting in 26.1, targets use Loom's unobfuscated plugin and produce native-name jars. Every production file is named `averion-client-<minecraftId>.jar` and carries the exact Minecraft dependency and the independent Averion release version.
+ClickGUI uses a native screen on every target. The canvas adapters cover MatrixStack through 1.19.4, DrawContext from 1.20 through 1.21.11, and GuiGraphicsExtractor from 26.1 onward. The Yarn input adapters handle primitive callbacks through 1.21.8 and event objects from 1.21.9. The unobfuscated adapter uses Minecraft's own key and button constants to handle 26.3's switch to SDL input.
+
+Gradle compiles the shared ClickGUI and HUD layout, input actions, notifications, settings, and lifecycle state for every target. Targets through 1.21.11 use Loom's remapping plugin and produce intermediary production jars. Starting in 26.1, targets use Loom's unobfuscated plugin and produce native-name jars. Every production file is named `averion-client-<minecraftId>.jar` and carries the exact Minecraft dependency and the independent Averion release version.
 
 ## Repeating verification
 

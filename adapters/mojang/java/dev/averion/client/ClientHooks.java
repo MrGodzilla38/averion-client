@@ -27,10 +27,27 @@ final class ClientHooks implements HudText {
         KeyMapping toggle = KeyMappingHelper.registerKeyMapping(
                 new KeyMapping(KeyBindings.TOGGLE_HUD, InputConstants.KEY_F8, category));
         runtime.keys().register(KeyBindings.TOGGLE_HUD, toggle::isDown, toggle::consumeClick, runtime::toggleHud);
+        KeyMapping clickGui = KeyMappingHelper.registerKeyMapping(
+                new KeyMapping(KeyBindings.TOGGLE_GUI, InputConstants.KEY_RSHIFT, category));
+        runtime.keys().register(KeyBindings.TOGGLE_GUI, clickGui::isDown, clickGui::consumeClick,
+                () -> openGui(runtime, clickGui));
         ClientTickEvents.END_CLIENT_TICK.register(client -> runtime.tick(playing(client) && client.isWindowActive()));
         HudElementRegistry.attachElementAfter(
                 VanillaHudElements.BOSS_BAR, Identifier.fromNamespaceAndPath("averion_client", HudFeature.ID), hooks::render);
         ClientLifecycleEvents.CLIENT_STOPPING.register(client -> runtime.close());
+    }
+
+    private static void openGui(ClientRuntime runtime, KeyMapping mapping) {
+        Minecraft client = Minecraft.getInstance();
+        if (mapping.isUnbound()) {
+            return;
+        }
+        for (KeyMapping other : client.options.keyMappings) {
+            if (other != mapping && mapping.same(other)) {
+                return;
+            }
+        }
+        TargetScreen.show(client, new TargetGui(runtime, client, mapping));
     }
 
     private static boolean playing(Minecraft client) {
@@ -50,7 +67,7 @@ final class ClientHooks implements HudText {
     }
 
     @Override
-    public void draw(String text, int x, int y, int color) {
-        graphics.text(Minecraft.getInstance().font, text, x, y, color, true);
+    public void draw(String text, int x, int y, int color, boolean shadow) {
+        graphics.text(Minecraft.getInstance().font, text, x, y, color, shadow);
     }
 }

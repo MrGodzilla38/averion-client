@@ -19,12 +19,17 @@ import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 final class SettingsStore {
     private static final String FILE_NAME = "averion-client.json";
     private static final String SCHEMA_FIELD = "schemaVersion";
     private static final String HUD_FIELD = "hudEnabled";
+    private static final String FEATURES_FIELD = "features";
+    private static final String ENABLED_FIELD = "enabled";
+    private static final String SETTINGS_FIELD = "settings";
     private static final int SCHEMA_VERSION = 1;
     private static final int MAX_BYTES = 64 * 1024;
     private static final TypeAdapter<JsonElement> JSON = new Gson().getAdapter(JsonElement.class);
@@ -69,17 +74,81 @@ final class SettingsStore {
         }
     }
 
+    void loadFeatures(List<Feature> features) {
+        boolean hudEnabled = loadHudEnabled();
+        JsonObject modules = object(document, FEATURES_FIELD);
+        for (Feature feature : features) {
+            JsonObject module = object(modules, feature.id);
+            JsonObject stored = object(module, SETTINGS_FIELD);
+            for (Setting<?> setting : feature.settings()) {
+                setting.load(stored.get(setting.id));
+            }
+            JsonElement enabled = module.get(ENABLED_FIELD);
+            if (feature.id.equals(HudFeature.ID)) {
+                feature.setEnabled(hudEnabled);
+            } else if (enabled != null && enabled.isJsonPrimitive() && enabled.getAsJsonPrimitive().isBoolean()) {
+                feature.setEnabled(enabled.getAsBoolean());
+            }
+        }
+    }
+
     boolean isWritable() {
         return writable;
     }
 
-    // Called by the client at startup, then exclusively by its single config writer.
+    // Snapshot only the registered fields on the game thread. The writer owns the loaded JSON thereafter.
+    static JsonObject snapshot(List<Feature> features) {
+        JsonObject snapshot = new JsonObject();
+        JsonObject modules = new JsonObject();
+        for (Feature feature : features) {
+            JsonObject module = new JsonObject();
+            if (feature.id.equals(HudFeature.ID)) {
+                snapshot.addProperty(HUD_FIELD, feature.isEnabled());
+            } else {
+                module.addProperty(ENABLED_FIELD, feature.isEnabled());
+            }
+            JsonObject values = new JsonObject();
+            for (Setting<?> setting : feature.settings()) {
+                values.add(setting.id, setting.encode());
+            }
+            module.add(SETTINGS_FIELD, values);
+            modules.add(feature.id, module);
+        }
+        snapshot.add(FEATURES_FIELD, modules);
+        return snapshot;
+    }
+
     void saveHudEnabled(boolean enabled) throws IOException {
+        JsonObject values = new JsonObject();
+        values.addProperty(HUD_FIELD, enabled);
+        saveFeatures(values);
+    }
+
+    void saveFeatures(JsonObject snapshot) throws IOException {
         if (!writable) {
             throw new IOException("Averion configuration is read-only");
         }
         document.addProperty(SCHEMA_FIELD, SCHEMA_VERSION);
-        document.addProperty(HUD_FIELD, enabled);
+        if (snapshot.has(HUD_FIELD)) {
+            document.add(HUD_FIELD, snapshot.get(HUD_FIELD));
+        }
+        if (snapshot.has(FEATURES_FIELD)) {
+            JsonObject modules = object(document, FEATURES_FIELD);
+            for (Map.Entry<String, JsonElement> entry : object(snapshot, FEATURES_FIELD).entrySet()) {
+                JsonObject module = object(modules, entry.getKey());
+                JsonObject next = entry.getValue().getAsJsonObject();
+                if (next.has(ENABLED_FIELD)) {
+                    module.add(ENABLED_FIELD, next.get(ENABLED_FIELD));
+                }
+                JsonObject values = object(module, SETTINGS_FIELD);
+                for (Map.Entry<String, JsonElement> value : object(next, SETTINGS_FIELD).entrySet()) {
+                    values.add(value.getKey(), value.getValue());
+                }
+                module.add(SETTINGS_FIELD, values);
+                modules.add(entry.getKey(), module);
+            }
+            document.add(FEATURES_FIELD, modules);
+        }
         Path dir = file.getParent();
         Files.createDirectories(dir);
         Path staged = Files.createTempFile(dir, "averion-client-", ".tmp");
@@ -94,6 +163,11 @@ final class SettingsStore {
         } finally {
             Files.deleteIfExists(staged);
         }
+    }
+
+    private static JsonObject object(JsonObject parent, String key) {
+        JsonElement value = parent.get(key);
+        return value != null && value.isJsonObject() ? value.getAsJsonObject() : new JsonObject();
     }
 
     private JsonObject readObject() throws IOException {

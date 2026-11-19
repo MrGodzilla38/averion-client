@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -79,6 +81,33 @@ class SettingsStoreTest {
         assertTrue(store.loadHudEnabled());
         assertFalse(store.isWritable());
         assertTrue(Files.isDirectory(config()));
+    }
+
+    @Test
+    void loadsLegacyHudFlagValidatesNewSettingsAndKeepsNestedUnknownFields() throws IOException {
+        String config = "{\"schemaVersion\":1,\"hudEnabled\":false,\"features\":{\"future\":{\"enabled\":true},"
+                + "\"hud\":{\"settings\":{\"shadow\":\"invalid\",\"content\":\"UNKNOWN\","
+                + "\"line_spacing\":200,\"version_color\":-1,\"extra\":42}}}}";
+        Files.write(config(), config.getBytes(StandardCharsets.UTF_8));
+        HudFeature hud = new HudFeature("26.3");
+        Feature other = new Feature("other", "Other", "Other", Feature.Category.CLIENT, true) { };
+        List<Feature> features = Arrays.asList(hud, other);
+        SettingsStore store = new SettingsStore(dir);
+        store.loadFeatures(features);
+        assertFalse(hud.isEnabled());
+        assertEquals("BOTH", hud.settings().get(0).encode().getAsString());
+        assertEquals(true, hud.settings().get(1).value());
+        assertEquals(22, hud.settings().get(2).value());
+        assertEquals(0xB7CEE9, hud.settings().get(3).value());
+        other.setEnabled(false);
+        store.saveFeatures(SettingsStore.snapshot(features));
+
+        other.setEnabled(true);
+        new SettingsStore(dir).loadFeatures(features);
+        assertFalse(other.isEnabled());
+        assertTrue(read(config()).contains("\"extra\": 42"));
+        assertTrue(read(config()).contains("\"future\""));
+        assertTrue(read(config()).contains("\"hudEnabled\": false"));
     }
 
     private Path config() {

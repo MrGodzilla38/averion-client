@@ -39,7 +39,7 @@ class NotificationsTest {
 
     private List<String> render() {
         List<String> lines = new ArrayList<>();
-        notifications.render((text, x, y, color) -> lines.add(text));
+        notifications.render((text, x, y, color, shadow) -> lines.add(text));
         return lines;
     }
 }

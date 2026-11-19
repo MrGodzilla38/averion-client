@@ -1,4 +1,5 @@
 {
+  "key.averion_client.toggle_gui": "Open Averion ClickGUI",
   "key.averion_client.toggle_hud": "Toggle Averion HUD",
   "key.category.averion_client.controls": "Averion Client"
 }

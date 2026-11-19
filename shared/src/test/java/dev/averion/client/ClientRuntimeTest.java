@@ -35,7 +35,7 @@ class ClientRuntimeTest {
 
     private static List<String> render(ClientRuntime runtime) {
         List<String> lines = new ArrayList<>();
-        runtime.render((text, x, y, color) -> lines.add(text));
+        runtime.render((text, x, y, color, shadow) -> lines.add(text));
         return lines;
     }
 }

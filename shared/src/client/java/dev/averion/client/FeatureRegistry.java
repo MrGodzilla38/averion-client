@@ -1,6 +1,9 @@
 package dev.averion.client;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 final class FeatureRegistry implements AutoCloseable {
@@ -23,6 +26,10 @@ final class FeatureRegistry implements AutoCloseable {
             throw new IllegalArgumentException("Unknown feature ID: " + id);
         }
         return feature;
+    }
+
+    List<Feature> all() {
+        return Collections.unmodifiableList(new ArrayList<>(features.values()));
     }
 
     @Override

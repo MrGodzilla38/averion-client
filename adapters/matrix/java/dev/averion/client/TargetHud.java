@@ -33,7 +33,11 @@ final class TargetHud implements HudText {
     }
 
     @Override
-    public void draw(String text, int x, int y, int color) {
-        MinecraftClient.getInstance().textRenderer.drawWithShadow(context, text, x, y, color);
+    public void draw(String text, int x, int y, int color, boolean shadow) {
+        if (shadow) {
+            MinecraftClient.getInstance().textRenderer.drawWithShadow(context, text, x, y, color);
+        } else {
+            MinecraftClient.getInstance().textRenderer.draw(context, text, x, y, color);
+        }
     }
 }
