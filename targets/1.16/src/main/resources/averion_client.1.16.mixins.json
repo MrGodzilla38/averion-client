@@ -1,0 +1,7 @@
+{
+  "required": true,
+  "package": "dev.averion.client.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "client": ["LegacyClientStopMixin"],
+  "injectors": { "defaultRequire": 1 }
+}

@@ -1,32 +1,1048 @@
 {
   "schemaVersion": 1,
-  "clientVersion": "0.1.0-phase.0",
-  "channel": "preview",
+  "clientVersion": "0.1.0",
+  "channel": "stable",
   "sequence": 1,
   "targets": [
+    {
+      "minecraftVersion": "1.16",
+      "javaMajor": 8,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.16.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.16.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "RtAjPwHu",
+          "sha512": "cdd694dbb53f02b5390c813f66222550f1c99853a644140392509493e1e4d2770f3ac022980b9a7c2de0de51f0179f6901cca8e46c3ee21d932be09ec2e4ba3a",
+          "file": {
+            "fileName": "fabric-api-0.13.1%2Bbuild.370-1.16.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/0.13.1%2Bbuild.370-1.16/fabric-api-0.13.1%2Bbuild.370-1.16.jar",
+            "size": 565722,
+            "sha256": "b15ac15203fe17bfda1de2f5bcbeb3349e4b79d325ba1b6ffcb17de00f36f992"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "1.16.1",
+      "javaMajor": 8,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.16.1.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.16.1.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "qPNxv5qZ",
+          "sha512": "5b70a6880274b6be4dc1fb817b25c06d47160d2bc390ea914f9a6578376b30f45bfcacd71953e0bea6af7a326f6f5597d2e714a298f4d36ecea5f62cbe6f51c2",
+          "file": {
+            "fileName": "fabric-api-0.18.0%2Bbuild.387-1.16.1.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/0.18.0%2Bbuild.387-1.16.1/fabric-api-0.18.0%2Bbuild.387-1.16.1.jar",
+            "size": 656899,
+            "sha256": "ed274825dd3b106a0de04b5fc4686927b4018a0de48484f56f64c87791ed4dbb"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "1.16.2",
+      "javaMajor": 8,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.16.2.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.16.2.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "ybc5Fjql",
+          "sha512": "fe70a653fb82221376fb064ccefaefce544b45eaad042e7694babab9968e1b99967e3a2b63a510336706f4a9290be99b6e75ed08045bfaefddb356f2eccbdf28",
+          "file": {
+            "fileName": "fabric-api-0.20.1%2Bbuild.401-1.16.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/0.20.1%2Bbuild.401-1.16/fabric-api-0.20.1%2Bbuild.401-1.16.jar",
+            "size": 648570,
+            "sha256": "fb3f40966626a86ec4010ceec47140a9dec52c468c4c324441091b024e1cbbca"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "1.16.3",
+      "javaMajor": 8,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.16.3.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.16.3.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "ClXHxfOV",
+          "sha512": "4b5d3c2ba509d50459328c0def6bdd863ee9b7235a35158f51cfb559202f6865080a9ab31fabd3eaf8ea4be507326849a7e0a3ca7c0e5c9cd01f6fe891cb657a",
+          "file": {
+            "fileName": "fabric-api-0.25.0%2Bbuild.415-1.16.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/0.25.0%2Bbuild.415-1.16/fabric-api-0.25.0%2Bbuild.415-1.16.jar",
+            "size": 737230,
+            "sha256": "e7ea0802a2a607f4bb3b089d7581f25747e382eaf07cb79aae26ed5c4dfbc752"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "1.16.4",
+      "javaMajor": 8,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.16.4.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.16.4.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "YC7ealNj",
+          "sha512": "81cc9b805e8e769d83cac78fb9f65c1393c7de2dafc2f9fb37de99f1640c292da8dc9d330eb09f0a9645b2be06aa838da0c5fda6504f4de2c7f2056a2a177715",
+          "file": {
+            "fileName": "fabric-api-0.29.3%2B1.16.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/0.29.3%2B1.16/fabric-api-0.29.3%2B1.16.jar",
+            "size": 871565,
+            "sha256": "3dbcce81b51917d19ec1fc95c85716304279f17908a9ae2defafa0f3ffadf10d"
+          }
+        }
+      ]
+    },
     {
       "minecraftVersion": "1.16.5",
       "javaMajor": 8,
       "fabricLoaderVersion": "0.20.1",
       "artifact": {
-        "fileName": "averion-client-0.1.0-phase.0-mc1.16.5.jar",
-        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0-phase.0/averion-client-0.1.0-phase.0-mc1.16.5.jar",
+        "fileName": "averion-client-1.16.5.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.16.5.jar",
         "size": 1,
         "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
       },
-      "requiredDependencies": []
+      "requiredDependencies": [
+        {
+          "modId": "fabric",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "IQ3UGSc2",
+          "sha512": "20defa796ea605fbad3285a7216c3bf8ac88bffbd0eee997c77e49dd6fbcf86631ef4ab75ab571d3d402181d1aa5c2bd945985a5119b411ef014b31c4ee1a5fb",
+          "file": {
+            "fileName": "fabric-api-0.42.0+1.16.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/0.42.0%2B1.16/fabric-api-0.42.0%2B1.16.jar",
+            "size": 1090414,
+            "sha256": "3df8dd503f35aa0ac9fab8ad9f9a369fdfd0b1ab544af19a3d626d948fb4586c"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "1.17",
+      "javaMajor": 16,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.17.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.17.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "nSk00F5M",
+          "sha512": "d48148da4dfd05178cc0a3e7ef88f9cfa14f119eb402df20d40c6f2e8215996b0852f0b6229bbd18b6b07282fb65b7e4961b0f09840f8a60a4cd8c7af1be140e",
+          "file": {
+            "fileName": "fabric-api-0.36.0+1.17.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/0.36.0%2B1.17/fabric-api-0.36.0%2B1.17.jar",
+            "size": 944449,
+            "sha256": "86e6fc2236f9db688815e0120f61e9a5ade6aea8c3cbcab042feabbeddc4b133"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "1.17.1",
+      "javaMajor": 16,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.17.1.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.17.1.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "31ES0yWr",
+          "sha512": "3348593a87d0f9dd7b10e2583c2d02c8120a0eb78c4c220fe6833d3cb36bc1820fa719d546e8cf9e6acd2035918a95589484a4eccc52d58e8d319a8979b8473b",
+          "file": {
+            "fileName": "fabric-api-0.46.1+1.17.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/0.46.1%2B1.17/fabric-api-0.46.1%2B1.17.jar",
+            "size": 1207739,
+            "sha256": "5c3358a724d1bb66c21f02ac29d63b665641b556a6f982240d00547427f452fe"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "1.18",
+      "javaMajor": 17,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.18.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.18.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "RSZHmY2f",
+          "sha512": "b793fc222d5bd595106decb5e5091c83bf3212d86847b2e32fb36d5905e38da80c0098b074a4066cfe05039cdb811897d406a82bb2764e6a69e99bed1d446217",
+          "file": {
+            "fileName": "fabric-api-0.44.0+1.18.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/0.44.0%2B1.18/fabric-api-0.44.0%2B1.18.jar",
+            "size": 1143259,
+            "sha256": "642072455df40c5e89dd71bbc002f8f04e2e419d81bd8f34226a1c20eb919556"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "1.18.1",
+      "javaMajor": 17,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.18.1.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.18.1.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "kbtdliUm",
+          "sha512": "3124e71b7791e69bb17a8c1c09b6838c28398fe082b074717b333e783daa49795fc8a8afea8e1758c2749a1e27f01975c4000ebf29dbdd3cfcf64817f12256e2",
+          "file": {
+            "fileName": "fabric-api-0.46.6+1.18.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/0.46.6%2B1.18/fabric-api-0.46.6%2B1.18.jar",
+            "size": 1178637,
+            "sha256": "91d170428e23220ad6ecf2e2727bdf20b16c46622be8a65054b0a9508c963b79"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "1.18.2",
+      "javaMajor": 17,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.18.2.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.18.2.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric-api",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "qk28POfr",
+          "sha512": "adb62b0d73e83cf9302a59a55ffe7ca2cf6f4ebb34312ec09e0f56b99ebc173e02dd4f0b8ec059d7262a14857dc1911645b090e460f20fd8e2d48aa5f2fdbefa",
+          "file": {
+            "fileName": "fabric-api-0.77.0+1.18.2.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/qk28POfr/fabric-api-0.77.0%2B1.18.2.jar",
+            "size": 1472259,
+            "sha256": "6f822fb5aa481b4a6c1cfb8612bbfecc62a58e69d2c792f61a0eafa580e75999"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "1.19",
+      "javaMajor": 17,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.19.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.19.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "3KmOcp6b",
+          "sha512": "9c948488852e3bcf7a84fef26465bf0bcfbba17fb03e6b56ae11cf82d1ae6abbfb4c569bf3f1d088c6c3c5219d37c2699afc9013926f588263210a19f8d6e235",
+          "file": {
+            "fileName": "fabric-api-0.58.0+1.19.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/0.58.0%2B1.19/fabric-api-0.58.0%2B1.19.jar",
+            "size": 1496048,
+            "sha256": "0a3d2dba1ed45b002483ae7c08e2c0bcfcb8d2b166801a6c29d8ea64dba64370"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "1.19.1",
+      "javaMajor": 17,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.19.1.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.19.1.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "3fY6NddT",
+          "sha512": "6916bc50c9bcd225142e4cf8a2d251f57dd89123baff4a8941c46365ba408b5a00484731ec3981935536817e63d2fcf1f916a2ac5975beffc831139cc3b62bd0",
+          "file": {
+            "fileName": "fabric-api-0.58.5+1.19.1.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/0.58.5%2B1.19.1/fabric-api-0.58.5%2B1.19.1.jar",
+            "size": 1498297,
+            "sha256": "82d61faef0857b4c9e4d54d711ca0acc6df331a4192cc3c16affeaf44d20535d"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "1.19.2",
+      "javaMajor": 17,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.19.2.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.19.2.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric-api",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "6g95K303",
+          "sha512": "1b8f180fe24a971b1a28758f1fa2cb4afa7f52d8bac6c9e68e6dcf0c4fc6cf2024becb1dabfa17e5a24b7c47aecd945af3531d1b3c72319d986011f1d0067338",
+          "file": {
+            "fileName": "fabric-api-0.77.0+1.19.2.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/6g95K303/fabric-api-0.77.0%2B1.19.2.jar",
+            "size": 1892953,
+            "sha256": "0fc62744a38f629fe0840893713e6a111ed1263719f93e499c990688811824ec"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "1.19.3",
+      "javaMajor": 17,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.19.3.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.19.3.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric-api",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "jyKnHEDY",
+          "sha512": "8fd425c293736a44ff2aaa6895575e0eca2a1835aba2c699c8e6d608926f77f475afde8a8eee46458883cb2c00a523bc331a4c5d881180c02ff6948afcd555a8",
+          "file": {
+            "fileName": "fabric-api-0.76.1+1.19.3.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/jyKnHEDY/fabric-api-0.76.1%2B1.19.3.jar",
+            "size": 1940232,
+            "sha256": "3343713402af85b2a712c7c801854d8b3c2065b4ff3bbd3bd3ddd240f1e15c9f"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "1.19.4",
+      "javaMajor": 17,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.19.4.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.19.4.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric-api",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "nyAmoHlr",
+          "sha512": "d839c678699130db605ac580484b5193c302dfa1ed91014c138cb1354874cef0d16580c7c11bedece3cf8a027ddbb4755d4924f6045970a6af608ff0fed898eb",
+          "file": {
+            "fileName": "fabric-api-0.87.2+1.19.4.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/nyAmoHlr/fabric-api-0.87.2%2B1.19.4.jar",
+            "size": 2055860,
+            "sha256": "a92650d48a9f672dc74e8b1eaefedb28dc83a13a80431215900181aa3a8675d8"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "1.20",
+      "javaMajor": 17,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.20.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.20.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric-api",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "n2c5lxAo",
+          "sha512": "b121ee00b13804d6850cdf506f9b216348a76ee8c1998492062d1b3d09f7ee921c89153449fd9d8ad907d1b8efb660a9cf4c540c20dc0ae892e0f567ac6541fe",
+          "file": {
+            "fileName": "fabric-api-0.83.0+1.20.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/n2c5lxAo/fabric-api-0.83.0%2B1.20.jar",
+            "size": 1974627,
+            "sha256": "c0207a51c8aafebf25ae76732e2bebf76b87b2b9acdfba248cc0a3fc590a4717"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "1.20.1",
+      "javaMajor": 17,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.20.1.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.20.1.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric-api",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "rvI2dfzR",
+          "sha512": "de9da2344043b3e9ef9fb7dbfff5f2577b06000c4f73f2a37959a80123141169084cece19133bd299b45feaaa4648bdaca2ea085684888cc8c55cc9134a477ca",
+          "file": {
+            "fileName": "fabric-api-0.92.12+1.20.1.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/rvI2dfzR/fabric-api-0.92.12%2B1.20.1.jar",
+            "size": 2137232,
+            "sha256": "4197ff4fbdac13cffccd267c1bc59e9fbabb2b5683a9d5f8023f4b5ea16a1c1e"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "1.20.2",
+      "javaMajor": 17,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.20.2.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.20.2.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric-api",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "8GVp7wDk",
+          "sha512": "bfa5c6f949cb782ce84de24ad3ef324690fa4f84dea57e4d2f311e1b30b9ed1dac2c17aee25f7a26d0312d808f2ed6a8ab81c79d38dda9774c87c324305cec67",
+          "file": {
+            "fileName": "fabric-api-0.91.6+1.20.2.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/8GVp7wDk/fabric-api-0.91.6%2B1.20.2.jar",
+            "size": 2085618,
+            "sha256": "f907f05b8ecdc0f33e48a79eddc33748cf97d00083185ea3cb452bb3b2e11d19"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "1.20.3",
+      "javaMajor": 17,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.20.3.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.20.3.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric-api",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "Yolngp3s",
+          "sha512": "03acb0086fcd89ba1b4f5f069a38318536e0e5aefff9722b0068b0fd09563123bf6493a16f4e6cac2816fccbdfe1c4bdacfe29de5f15603c3b5a15bcc8ef5b6a",
+          "file": {
+            "fileName": "fabric-api-0.91.1+1.20.3.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/Yolngp3s/fabric-api-0.91.1%2B1.20.3.jar",
+            "size": 2080725,
+            "sha256": "2c7343ccfc5febd948b2dd4e16a36652be0dfc56dd29156459dd13010624d6f7"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "1.20.4",
+      "javaMajor": 17,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.20.4.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.20.4.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric-api",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "BPX6fK06",
+          "sha512": "ea1e47672a1e0fef7fa3fd7f7b396b5a8fb2c46e6ce33dbc4cc2b8d320bc7b775a0de42a478302419c8063c47fbc18bb2ad7551772f54af8059132ac2cb4f108",
+          "file": {
+            "fileName": "fabric-api-0.97.3+1.20.4.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/BPX6fK06/fabric-api-0.97.3%2B1.20.4.jar",
+            "size": 2187523,
+            "sha256": "5c11c93b21e0fbcd83dd11c6059479143f3d422bceac4153c3e55806ba9371f1"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "1.20.5",
+      "javaMajor": 21,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.20.5.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.20.5.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric-api",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "GCdY4I8I",
+          "sha512": "4b52fe9bd5bfd50df610f236b6d2fa08985ab5dee51261397c83413cf42cf4bde05190ba851f5100bae3c43a7e2da9e8d0e708477ad8e30d2f00eb1e2af59cb3",
+          "file": {
+            "fileName": "fabric-api-0.97.8+1.20.5.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/GCdY4I8I/fabric-api-0.97.8%2B1.20.5.jar",
+            "size": 2201975,
+            "sha256": "3c735640c97fbf054b9ff279c1798361c3bc8f65427b6813c8170c074099aacb"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "1.20.6",
+      "javaMajor": 21,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.20.6.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.20.6.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric-api",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "ocg4hG3t",
+          "sha512": "414f19f903a093c39006e1919a81bea43c3b6728b88e358dc2611ab44b8087e25abc504c66926f245342fa2a245c07462ed62897f15d6c84006b7acf6214ca46",
+          "file": {
+            "fileName": "fabric-api-0.100.8+1.20.6.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/ocg4hG3t/fabric-api-0.100.8%2B1.20.6.jar",
+            "size": 2249380,
+            "sha256": "ef0da4eca8aa731469dde63dbee451bc6b0d5814bc140c747a7029b9bb2a8cef"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "1.21",
+      "javaMajor": 21,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.21.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.21.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric-api",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "oGwyXeEI",
+          "sha512": "11732c4e36c3909360a24aa42a44da89048706cf10aaafa0404d7153cbc7395ff68a130f7b497828d6932740e004416b692650c3fbcc1f32babd7cb6eb9791d8",
+          "file": {
+            "fileName": "fabric-api-0.102.0+1.21.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/oGwyXeEI/fabric-api-0.102.0%2B1.21.jar",
+            "size": 2285859,
+            "sha256": "7ec0e5a11e77957fe1ed0328487921a8211bb7eace14298cd74635bec61a3f26"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "1.21.1",
+      "javaMajor": 21,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.21.1.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.21.1.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric-api",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "5SwzqWUu",
+          "sha512": "9f721c253ae2e9823cb548e8ec132c9928f80a65184e9b8dcfc489a8d632df20cbfea1e65ff8a4333bdb295c41fbe2228b43e4d41c7355d42ed4637a785840a1",
+          "file": {
+            "fileName": "fabric-api-0.116.18+1.21.1.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/5SwzqWUu/fabric-api-0.116.18%2B1.21.1.jar",
+            "size": 2453884,
+            "sha256": "1cb46442dda6d3be9979a2619610eb1c1f6641cd7ed7cb3eec058589ce9eed46"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "1.21.2",
+      "javaMajor": 21,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.21.2.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.21.2.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric-api",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "UEjZZNue",
+          "sha512": "3c9f04933a71aac76bee6a71d3b48325b65896cb2935ed2c6476d0290d4810648b00e0cea856de0b08ab0086f442eb252c7e816381a0198f7a4b54a5472270bf",
+          "file": {
+            "fileName": "fabric-api-0.106.1+1.21.2.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/UEjZZNue/fabric-api-0.106.1%2B1.21.2.jar",
+            "size": 2301393,
+            "sha256": "d306e1cf9348bc13292bbdcec19a417a50d6dc538121eec02d10704e6b9e2ee8"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "1.21.3",
+      "javaMajor": 21,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.21.3.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.21.3.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric-api",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "wLq4rGsB",
+          "sha512": "962e64e8418b074ce68809cd38835e99fea3da8dc1b2979a69f10fee047cd3404b2157a8106fa650795d17e0eebfa41a0d21af7ea5a4b9ee3992c57bc3c5d113",
+          "file": {
+            "fileName": "fabric-api-0.114.1+1.21.3.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/wLq4rGsB/fabric-api-0.114.1%2B1.21.3.jar",
+            "size": 2380714,
+            "sha256": "357a4fe24c7a7248320d2099b8567b65fd2f4271a3faf9c7f369dd2c18ab4157"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "1.21.4",
+      "javaMajor": 21,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.21.4.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.21.4.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric-api",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "p96k10UR",
+          "sha512": "16b679f6a42549ca3b6bc147de710b2c8ba2d5e4661ed88df22782c05a4a5f6c1163d7b13867687ed91acde0fdfe5a5037d05662431c946865b58396284e7ee7",
+          "file": {
+            "fileName": "fabric-api-0.119.4+1.21.4.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/p96k10UR/fabric-api-0.119.4%2B1.21.4.jar",
+            "size": 2149128,
+            "sha256": "d183bacb845167f09264c2f90322b7ecffe8826debda6f60e597889264bef4af"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "1.21.5",
+      "javaMajor": 21,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.21.5.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.21.5.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric-api",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "kKEGlsne",
+          "sha512": "0e42b72d1a63a45c1b64cdabafd15f4d236bbda5521964d687afa1f833d4022f96c7ffab5dd4471aba0190be588f092d156bf14a50b794895fb3286ec899bcf7",
+          "file": {
+            "fileName": "fabric-api-0.128.2+1.21.5.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/kKEGlsne/fabric-api-0.128.2%2B1.21.5.jar",
+            "size": 2248994,
+            "sha256": "a82fd00827206e911936ed1e0ceaec6eb55d061ca5d3c5d63c7f0031426d29ae"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "1.21.6",
+      "javaMajor": 21,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.21.6.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.21.6.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric-api",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "F5TVHWcE",
+          "sha512": "b6d0ec0aec40069cb1fa2159c126d027d7f95e3f6260a3e88ebe9c47f3cb716d1170af8e2e4ff3d4108ce5eeaea70002a889547578374d4d6dfa45755e99431e",
+          "file": {
+            "fileName": "fabric-api-0.128.2+1.21.6.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/F5TVHWcE/fabric-api-0.128.2%2B1.21.6.jar",
+            "size": 2209737,
+            "sha256": "6e1d4547d7debd18da80532e561f02f167545219516af5b63c8a803a8f09822f"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "1.21.7",
+      "javaMajor": 21,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.21.7.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.21.7.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric-api",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "JntuF9Ul",
+          "sha512": "43bf6af145a6b450503a6d7e7ec9a34912bd1494969b5d8861067f0f846cf710805415fb0fbc93c9ae9f5164d45c7649342f84b4f34552b2abdd892fd3b9838e",
+          "file": {
+            "fileName": "fabric-api-0.129.0+1.21.7.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/JntuF9Ul/fabric-api-0.129.0%2B1.21.7.jar",
+            "size": 2212353,
+            "sha256": "db5f16fe1aa577f46d363bf8d7a97054249f0962d82d0ef18d19ca4d5e162768"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "1.21.8",
+      "javaMajor": 21,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.21.8.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.21.8.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric-api",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "g58ofrov",
+          "sha512": "eb1a6b5fc9912c68409493f10f43c3b61adda1d789ede9c83b16d0a95a2eb96bd630472866e163960479eb1b4d1196d09ade5aadc9da62624e800640c706c4a9",
+          "file": {
+            "fileName": "fabric-api-0.136.1+1.21.8.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/g58ofrov/fabric-api-0.136.1%2B1.21.8.jar",
+            "size": 2269700,
+            "sha256": "24c2c9c7fa1f969982ddf142a5f17b356b88a5eb1cb1ece9c287a588f3451233"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "1.21.9",
+      "javaMajor": 21,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.21.9.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.21.9.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric-api",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "vczmWJBj",
+          "sha512": "e9e23dfc1bbe27891be06bfb07f1ff0121a0e5e46bbf73910999b119d7eb15ee15be7f5feb926873c38e7a505a7a2cd6f343db672ec5d0e371b26ffe3591dd84",
+          "file": {
+            "fileName": "fabric-api-0.134.1+1.21.9.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/vczmWJBj/fabric-api-0.134.1%2B1.21.9.jar",
+            "size": 2290371,
+            "sha256": "43e7bf24789b5d841690d942efc274478a50fbfd943e8838f8fbc4de8162a970"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "1.21.10",
+      "javaMajor": 21,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.21.10.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.21.10.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric-api",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "tV4Gc0Zo",
+          "sha512": "5e64c53391dfd1c059777d671c52be17a4e27a29d9bd7340ea9e3f55ce7a770b38db0a15e0966e981ee8c1b9372fb89543a278521624689268acebb85bd5c6e9",
+          "file": {
+            "fileName": "fabric-api-0.138.4+1.21.10.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/tV4Gc0Zo/fabric-api-0.138.4%2B1.21.10.jar",
+            "size": 2375888,
+            "sha256": "4dd5d07067d5cf3e874d2780806c3da223819d39b28d6296c1005a36f2d0a5e4"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "1.21.11",
+      "javaMajor": 21,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-1.21.11.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-1.21.11.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric-api",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "6qAuTtLR",
+          "sha512": "852d3682c4f353fd0ca86546af8578513e8bcf628377fa9d49c556bc59c5024c69ab56c92fc6dfba11fed19e4316a3f5636e7e07fd3d96f7043b531aef59b637",
+          "file": {
+            "fileName": "fabric-api-0.141.6+1.21.11.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/6qAuTtLR/fabric-api-0.141.6%2B1.21.11.jar",
+            "size": 2426039,
+            "sha256": "bdff7fd7e220085cfad2ff9b1f40dde6534ae0b96cf378f97a374bc54cb9ed0f"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "26.1",
+      "javaMajor": 25,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-26.1.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-26.1.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric-api",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "3dM0X6ou",
+          "sha512": "fa0308b42e9cd0dc3ff946f246d199d74547e0c946d7e3c9780a2537155307baf25129f69bd1349273babf879ffb4608b7e4af0740938f9c0f7b371b1c67d6ca",
+          "file": {
+            "fileName": "fabric-api-0.155.3+26.1.2.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/3dM0X6ou/fabric-api-0.155.3%2B26.1.2.jar",
+            "size": 2521340,
+            "sha256": "7fe7bea3dbb7b2e9ff998ab583130cd62fab22ab8a5229656ff14b2e648c91dd"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "26.1.1",
+      "javaMajor": 25,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-26.1.1.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-26.1.1.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric-api",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "3dM0X6ou",
+          "sha512": "fa0308b42e9cd0dc3ff946f246d199d74547e0c946d7e3c9780a2537155307baf25129f69bd1349273babf879ffb4608b7e4af0740938f9c0f7b371b1c67d6ca",
+          "file": {
+            "fileName": "fabric-api-0.155.3+26.1.2.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/3dM0X6ou/fabric-api-0.155.3%2B26.1.2.jar",
+            "size": 2521340,
+            "sha256": "7fe7bea3dbb7b2e9ff998ab583130cd62fab22ab8a5229656ff14b2e648c91dd"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "26.1.2",
+      "javaMajor": 25,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-26.1.2.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-26.1.2.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric-api",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "3dM0X6ou",
+          "sha512": "fa0308b42e9cd0dc3ff946f246d199d74547e0c946d7e3c9780a2537155307baf25129f69bd1349273babf879ffb4608b7e4af0740938f9c0f7b371b1c67d6ca",
+          "file": {
+            "fileName": "fabric-api-0.155.3+26.1.2.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/3dM0X6ou/fabric-api-0.155.3%2B26.1.2.jar",
+            "size": 2521340,
+            "sha256": "7fe7bea3dbb7b2e9ff998ab583130cd62fab22ab8a5229656ff14b2e648c91dd"
+          }
+        }
+      ]
+    },
+    {
+      "minecraftVersion": "26.2",
+      "javaMajor": 25,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-26.2.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-26.2.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": [
+        {
+          "modId": "fabric-api",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "ewUK83HI",
+          "sha512": "2502fa5ade78e9a120b3747bc1a9a2167d6671743bea45bf115d3174c94121aeda87c549446d1a604a9c11fb828de17a551e3514ce42f3e93069dd14bdaee55b",
+          "file": {
+            "fileName": "fabric-api-0.161.0+26.2.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/ewUK83HI/fabric-api-0.161.0%2B26.2.jar",
+            "size": 2566123,
+            "sha256": "e5b858ceb13290c274e31cb888ff5a1a40cb91067e7ffab0b5b775aec51e216a"
+          }
+        }
+      ]
     },
     {
       "minecraftVersion": "26.3",
       "javaMajor": 25,
       "fabricLoaderVersion": "0.20.1",
       "artifact": {
-        "fileName": "averion-client-0.1.0-phase.0-mc26.3.jar",
-        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0-phase.0/averion-client-0.1.0-phase.0-mc26.3.jar",
+        "fileName": "averion-client-26.3.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0/averion-client-26.3.jar",
         "size": 1,
         "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
       },
-      "requiredDependencies": []
+      "requiredDependencies": [
+        {
+          "modId": "fabric-api",
+          "provider": "modrinth",
+          "projectId": "P7dR8mSH",
+          "versionId": "Zns5SSRA",
+          "sha512": "fb686a9fa923248328107a12498229d6951e316257f18b7d0e4cbd6885ba447ed50a44076a8a5ba47cfe2043b329db3587ab000aeab1face26b2587a5d4ba6b5",
+          "file": {
+            "fileName": "fabric-api-0.166.2+26.3.jar",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/Zns5SSRA/fabric-api-0.166.2%2B26.3.jar",
+            "size": 1797523,
+            "sha256": "e8acacc7836f39237c83c2a664b039647ee36f93822797acc40cda44666002ea"
+          }
+        }
+      ]
     }
   ]
 }

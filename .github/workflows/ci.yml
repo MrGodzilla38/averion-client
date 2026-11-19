@@ -9,14 +9,52 @@ permissions:
   contents: read
 
 jobs:
+  targets:
+    runs-on: ubuntu-24.04
+    outputs:
+      minecraft: ${{ steps.catalog.outputs.minecraft }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Read Minecraft target catalog
+        id: catalog
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          import re
+          from pathlib import Path
+
+          catalog = json.loads(Path("gradle/minecraft-targets.json").read_text())
+          manifest = json.loads(Path("distribution/manifest-v1.example.json").read_text())
+          schema = json.loads(Path("distribution/manifest-v1.schema.json").read_text())
+          file_name_pattern = schema["$defs"]["file"]["properties"]["fileName"]["pattern"]
+          targets = {target["minecraftVersion"]: target for target in manifest["targets"]}
+          assert len(targets) == len(manifest["targets"])
+          assert targets.keys() == catalog.keys()
+          for game, profile in catalog.items():
+              target = targets[game]
+              assert target["javaMajor"] == profile["java"], game
+              assert target["fabricLoaderVersion"] == profile["loader"], game
+              assert target["artifact"]["fileName"] == f"averion-client-{game}.jar", game
+              assert any(
+                  dep["versionId"] == profile["modrinthVersion"]
+                  for dep in target["requiredDependencies"]
+              ), game
+              for dep in target["requiredDependencies"]:
+                  assert re.fullmatch(file_name_pattern, dep["file"]["fileName"]), game
+          print("minecraft=" + json.dumps(list(catalog)))
+          PY
+
   build:
+    needs: targets
     name: Minecraft ${{ matrix.minecraft }}
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     strategy:
       fail-fast: false
       matrix:
-        minecraft: ['1.16.5', '26.3']
+        minecraft: ${{ fromJSON(needs.targets.outputs.minecraft) }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:

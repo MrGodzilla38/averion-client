@@ -1,3 +1,5 @@
+import groovy.json.JsonSlurper
+
 pluginManagement {
     repositories {
         maven { url = 'https://maven.fabricmc.net/' }
@@ -6,10 +8,13 @@ pluginManagement {
 }
 
 rootProject.name = 'averion-client'
-def supportedTargets = ['1.16.5', '26.3']
-def requestedTarget = providers.gradleProperty('averionTarget').orNull
-if (requestedTarget != null && !supportedTargets.contains(requestedTarget)) {
-    throw new GradleException("Unknown Averion target: ${requestedTarget}")
+def catalog = new JsonSlurper().parse(file('gradle/minecraft-targets.json'))
+def requestedTargets = providers.gradleProperty('averionTarget').orNull
+def enabledTargets = requestedTargets == null ? catalog.keySet() : requestedTargets.split(',', -1).collect {
+    it.trim() == '1.16.0' ? '1.16' : it.trim()
 }
-def enabledTargets = requestedTarget == null ? supportedTargets : [requestedTarget]
-enabledTargets.each { include "targets:${it}" }
+def unknownTargets = enabledTargets.findAll { !catalog.containsKey(it) }
+if (!unknownTargets.isEmpty()) {
+    throw new GradleException("Unknown Averion targets: ${unknownTargets}")
+}
+enabledTargets.unique(false).each { include "targets:${it}" }

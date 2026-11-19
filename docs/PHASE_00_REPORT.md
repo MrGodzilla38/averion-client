@@ -21,7 +21,7 @@ The optimization review checked Sodium, Lithium, FerriteCore, ImmediatelyFast an
 | `shared/src/main/resources/fabric.mod.json` | Exact target metadata and the client-only entrypoint |
 | `shared/src/client/java/dev/averion/client/AverionClient.java` | Fabric bootstrap and a startup log containing the mod and game version |
 | `shared/src/test/java/dev/averion/client/AverionClientTest.java` | Parameterized startup diagnostic test |
-| `distribution/manifest-v1.schema.json`, `distribution/manifest-v1.example.json` | JSON Schema and synthetic preview manifest |
+| `distribution/manifest-v1.schema.json`, `distribution/manifest-v1.example.json` | JSON Schema and synthetic manifest example |
 | `.github/workflows/ci.yml`, `.gitattributes`, `.gitignore` | Two-target CI matrix, wrapper validation, line endings and generated-file exclusions |
 
 ## Validation

@@ -4,7 +4,7 @@ Averion Client is a client-only Fabric mod with a separate jar for each enabled 
 
 ## Code and dependency direction
 
-`shared/src/client/java` contains the Fabric entrypoint and Java 8-compatible runtime. It is compiled into each target. The shared runtime owns feature state, key action dispatch, JSON settings and the HUD layout. Each target supplies a `ClientHooks` adapter compiled against its game and Fabric API version. It registers the lifecycle, key mapping and rendering hooks and implements the shared `HudText` interface. Minecraft types stay in target code. The 1.16.5 Loom build uses a merged development game jar with client-only mod metadata. The 26.3 build uses Loom's split client source set.
+`shared/src/client/java` contains the Fabric entrypoint and Java 8-compatible runtime. It is compiled into each target. The shared runtime owns feature state, key action dispatch, JSON settings and the HUD layout. The target catalog selects `ClientHooks` and the relevant source adapters for that version. Gradle compiles them against the exact game and Fabric API pins. It registers the lifecycle, key mapping and rendering hooks and implements the shared `HudText` interface. Minecraft types stay in target code. Yarn targets use a merged development game jar and Loom remapping. Unobfuscated targets use the split client source set. See the [version inventory](MULTI_VERSION_SUPPORT.md) for the adapter boundaries and game Java requirements.
 
 | Responsibility | Ownership and boundary |
 | --- | --- |

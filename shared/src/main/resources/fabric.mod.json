@@ -11,13 +11,14 @@
   "entrypoints": {
     "client": ["dev.averion.client.AverionClient"]
   },
+  "mixins": [],
   "depends": {
     "fabricloader": "=${fabricLoaderVersion}",
     "minecraft": "=${minecraftVersion}",
     "java": ">=${gameJava}",
     "fabric-api-base": "${fabricBaseVersion}",
     "${fabricKeyModule}": "${fabricKeyVersion}",
-    "fabric-lifecycle-events-v1": "${fabricLifecycleVersion}",
+    "${fabricLifecycleModule}": "${fabricLifecycleVersion}",
     "fabric-rendering-v1": "${fabricRenderingVersion}"
   }
 }

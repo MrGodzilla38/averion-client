@@ -1,3 +1,5 @@
+import groovy.json.JsonSlurper
+
 plugins {
     id 'base'
     id 'net.fabricmc.fabric-loom-remap' version '1.17.21' apply false
@@ -6,7 +8,7 @@ plugins {
 
 def projectTextFiles = fileTree(rootDir) {
     include '*.gradle', '*.properties', '*.md', '.gitignore', '.gitattributes'
-    include '.github/**/*.yml', 'docs/**/*.md', 'distribution/**/*.json', 'gradle/**/*.gradle'
+    include '.github/**/*.yml', 'docs/**/*.md', 'distribution/**/*.json', 'gradle/**/*.gradle', 'gradle/minecraft-targets.json', 'adapters/**/*.java'
     include 'gradle/wrapper/*.properties', 'shared/src/**/*.java', 'shared/src/**/*.json'
     include 'targets/*/build.gradle', 'targets/*/gradle.lockfile', 'targets/*/src/**/*.java', 'targets/*/src/**/*.json'
 }
@@ -31,6 +33,21 @@ tasks.register('checkFormatting') {
 }
 
 def clientProjects = project(':targets').childProjects.values()
+def targetCatalog = new JsonSlurper().parse(file('gradle/minecraft-targets.json'))
+clientProjects.each { target ->
+    def profile = targetCatalog[target.name]
+    def remapped = profile.yarn != null
+    target.pluginManager.apply(remapped ? 'net.fabricmc.fabric-loom-remap' : 'net.fabricmc.fabric-loom')
+    target.ext.minecraftVersion = target.name
+    target.ext.fabricLoaderVersion = profile.loader
+    target.ext.fabricApiVersion = profile.fabricApi
+    target.ext.gameJava = profile.java
+    target.ext.yarnVersion = profile.yarn
+    target.ext.splitClientSources = !remapped
+    target.ext.productionTask = remapped ? 'remapJar' : 'jar'
+    target.ext.targetAdapters = profile.adapters
+    target.apply from: rootProject.file('gradle/client-target.gradle')
+}
 
 tasks.named('check') {
     dependsOn 'checkFormatting'

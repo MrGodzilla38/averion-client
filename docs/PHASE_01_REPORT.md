@@ -1,6 +1,6 @@
 # Phase 01 report
 
-Averion Client `0.1.0-phase.1` implements a profile-scoped feature runtime and its first gameplay feature. The HUD shows Averion Client branding and the running Minecraft version. It defaults to enabled. F8 toggles it during play and shows a short confirmation. The setting is stored in `<game directory>/config/averion-client.json`. Minecraft's Controls UI manages the mapping and stores remaps in `options.txt`. [Feature system](FEATURE_SYSTEM.md), [Configuration](CONFIGURATION.md).
+Phase 01, originally validated as Averion Client `0.1.0-phase.1`, implements a profile-scoped feature runtime and its first gameplay feature. The HUD shows Averion Client branding and the running Minecraft version. It defaults to enabled. F8 toggles it during play and shows a short confirmation. The setting is stored in `<game directory>/config/averion-client.json`. Minecraft's Controls UI manages the mapping and stores remaps in `options.txt`. [Feature system](FEATURE_SYSTEM.md), [Configuration](CONFIGURATION.md).
 
 ## Architecture and changes
 
@@ -19,7 +19,7 @@ Averion Client `0.1.0-phase.1` implements a profile-scoped feature runtime and i
 | `shared/src/test/java/dev/averion/client/{ClientRuntime,FeatureRegistry,KeyBindings,Notifications,SettingsStore}Test.java` | Behavior and persistence tests |
 | `README.md`, `docs/ARCHITECTURE.md`, `docs/MULTI_VERSION_SUPPORT.md`, `docs/FEATURE_SYSTEM.md`, `docs/CONFIGURATION.md`, `docs/PHASE_01_REPORT.md` | Setup, current runtime decisions and verification |
 
-Phase 00's Gradle, Loom, Loader, mappings, bytecode targets, artifact naming pattern, CI workflow and launcher manifest contract still apply. The synthetic Phase 00 manifest describes its dependency-free historical build. A Phase 01 release manifest would pin the matching upstream Fabric API file per target. The legacy bundle's root Fabric mod ID is `fabric` and the modern bundle uses `fabric-api`. [Launcher manifest contract](LAUNCHER_INTEGRATION.md).
+Phase 00's Gradle, Loom, Loader, mappings, bytecode targets and CI workflow still apply. Current production jars use the Minecraft target in the filename and carry Averion version `0.1.0` in mod metadata. The synthetic release manifest shows the current names and pins the matching upstream Fabric API file per target. The legacy bundle's root Fabric mod ID is `fabric` and the modern bundle uses `fabric-api`. [Launcher manifest contract](LAUNCHER_INTEGRATION.md).
 
 ## Target requirements
 
@@ -35,10 +35,11 @@ Gradle and JUnit use JDK 25 for both targets. Both game profiles require Fabric 
 The host ran Omarchy Linux x86-64 with Corretto 25.0.5.1. From the project root with `JAVA_HOME` set to an installed JDK 25, use these commands to repeat the build checks. Run the online build first to populate the Gradle cache.
 
 ```sh
-./gradlew --no-daemon --console=plain build
+./gradlew --no-daemon --console=plain -PaverionTarget=1.16.5,26.3 build
 artifact_hashes="$(mktemp)"
-sha256sum targets/*/build/libs/*phase.1*.jar > "$artifact_hashes"
-./gradlew --no-daemon --offline --console=plain --max-workers=4 --rerun-tasks build
+sha256sum targets/1.16.5/build/libs/averion-client-1.16.5.jar \
+  targets/26.3/build/libs/averion-client-26.3.jar > "$artifact_hashes"
+./gradlew --no-daemon --offline --console=plain --max-workers=4 --rerun-tasks -PaverionTarget=1.16.5,26.3 build
 sha256sum -c "$artifact_hashes"
 ./gradlew --no-daemon --offline --console=plain --max-workers=4 -PaverionTarget=1.16.5 build
 ./gradlew --no-daemon --offline --console=plain --max-workers=4 -PaverionTarget=26.3 build

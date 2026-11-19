@@ -1,34 +1,67 @@
 # Minecraft version support
 
-The support goal spans Minecraft Java Edition 1.16.5 through the newest stable release that meets the Fabric and Averion release gates. Each exact Minecraft version is an independent build and release target. On 2026-11-18, Mojang listed 26.3 as the stable release and 26.4-snapshot-10 as the snapshot. [Mojang version index](https://piston-meta.mojang.com/mc/game/version_manifest_v2.json), [Minecraft 26.3 release notes](https://www.minecraft.net/en-us/article/minecraft-java-edition-26-3).
+The inventory includes all 40 entries that Mojang marks as stable releases from `1.16` through `26.3`, inclusive. Mojang's ID for the first release is `1.16`. This is also the Yarn, launcher and jar filename ID. Gradle accepts `-PaverionTarget=1.16.0` as an alias. [Mojang release index and per-version metadata](https://piston-meta.mojang.com/mc/game/version_manifest_v2.json).
 
-| Phase 01 build target | Gradle JVM | Game JVM / bytecode | Loom mode | Mappings | Fabric Loader | Fabric API |
+## Build and compatibility matrix
+
+Every target uses **JDK 25, Gradle 9.6.0, and Fabric Loom 1.17.21** for builds. Loom 1.17.21 declares Java 21 and Gradle plugin API 9.5.0. This repository uses JDK 25 to compile every target, including the Minecraft 26.x releases. The Java column is the game runtime major from Mojang's metadata and the bytecode target used for that jar. Loader pins were checked against Fabric Meta per game ID. Fabric API pins come from releases listed for each exact game ID and cross-checked against Fabric Maven. Each POM supplies the selected module versions. The [target catalog](../gradle/minecraft-targets.json) drives Gradle and the CI matrix. The [example manifest](../distribution/manifest-v1.example.json) shows launcher pins and target artifact names. [Fabric Meta](https://meta.fabricmc.net/), [Fabric Maven](https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api/), [Loom module metadata](https://maven.fabricmc.net/net/fabricmc/fabric-loom/1.17.21/fabric-loom-1.17.21.module), [Gradle Java compatibility](https://docs.gradle.org/9.6.0/userguide/compatibility.html), [Fabric API version catalog](https://modrinth.com/mod/fabric-api/versions).
+
+| Minecraft ID | Game Java | Fabric Loader | Fabric API | Mappings | Build and JUnit | Gameplay |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1.16.5, baseline | 25 | 8 | `net.fabricmc.fabric-loom-remap` | Yarn `1.16.5+build.10` | 0.20.1 | `0.42.0+1.16` |
-| 26.3, modern endpoint | 25 | 25 | `net.fabricmc.fabric-loom` | Native game names | 0.20.1 | `0.166.2+26.3` |
+| 1.16 | 8 | 0.20.1 | [`0.13.1+build.370-1.16`](https://modrinth.com/mod/fabric-api/version/RtAjPwHu) | Yarn `1.16+build.4` | Passed | Not run |
+| 1.16.1 | 8 | 0.20.1 | [`0.18.0+build.387-1.16.1`](https://modrinth.com/mod/fabric-api/version/qPNxv5qZ) | Yarn `1.16.1+build.21` | Passed | Not run |
+| 1.16.2 | 8 | 0.20.1 | [`0.20.1+build.401-1.16`](https://modrinth.com/mod/fabric-api/version/ybc5Fjql) | Yarn `1.16.2+build.47` | Passed | Not run |
+| 1.16.3 | 8 | 0.20.1 | [`0.25.0+build.415-1.16`](https://modrinth.com/mod/fabric-api/version/ClXHxfOV) | Yarn `1.16.3+build.47` | Passed | Not run |
+| 1.16.4 | 8 | 0.20.1 | [`0.29.3+1.16`](https://modrinth.com/mod/fabric-api/version/YC7ealNj) | Yarn `1.16.4+build.9` | Passed | Not run |
+| 1.16.5 | 8 | 0.20.1 | [`0.42.0+1.16`](https://modrinth.com/mod/fabric-api/version/IQ3UGSc2) | Yarn `1.16.5+build.10` | Passed | Phase 01 gameplay |
+| 1.17 | 16 | 0.20.1 | [`0.36.0+1.17`](https://modrinth.com/mod/fabric-api/version/nSk00F5M) | Yarn `1.17+build.13` | Passed | Not run |
+| 1.17.1 | 16 | 0.20.1 | [`0.46.1+1.17`](https://modrinth.com/mod/fabric-api/version/31ES0yWr) | Yarn `1.17.1+build.65` | Passed | Not run |
+| 1.18 | 17 | 0.20.1 | [`0.44.0+1.18`](https://modrinth.com/mod/fabric-api/version/RSZHmY2f) | Yarn `1.18+build.1` | Passed | Not run |
+| 1.18.1 | 17 | 0.20.1 | [`0.46.6+1.18`](https://modrinth.com/mod/fabric-api/version/kbtdliUm) | Yarn `1.18.1+build.22` | Passed | Not run |
+| 1.18.2 | 17 | 0.20.1 | [`0.77.0+1.18.2`](https://modrinth.com/mod/fabric-api/version/qk28POfr) | Yarn `1.18.2+build.4` | Passed | Not run |
+| 1.19 | 17 | 0.20.1 | [`0.58.0+1.19`](https://modrinth.com/mod/fabric-api/version/3KmOcp6b) | Yarn `1.19+build.4` | Passed | Not run |
+| 1.19.1 | 17 | 0.20.1 | [`0.58.5+1.19.1`](https://modrinth.com/mod/fabric-api/version/3fY6NddT) | Yarn `1.19.1+build.6` | Passed | Not run |
+| 1.19.2 | 17 | 0.20.1 | [`0.77.0+1.19.2`](https://modrinth.com/mod/fabric-api/version/6g95K303) | Yarn `1.19.2+build.28` | Passed | Not run |
+| 1.19.3 | 17 | 0.20.1 | [`0.76.1+1.19.3`](https://modrinth.com/mod/fabric-api/version/jyKnHEDY) | Yarn `1.19.3+build.5` | Passed | Not run |
+| 1.19.4 | 17 | 0.20.1 | [`0.87.2+1.19.4`](https://modrinth.com/mod/fabric-api/version/nyAmoHlr) | Yarn `1.19.4+build.2` | Passed | Not run |
+| 1.20 | 17 | 0.20.1 | [`0.83.0+1.20`](https://modrinth.com/mod/fabric-api/version/n2c5lxAo) | Yarn `1.20+build.1` | Passed | Not run |
+| 1.20.1 | 17 | 0.20.1 | [`0.92.12+1.20.1`](https://modrinth.com/mod/fabric-api/version/rvI2dfzR) | Yarn `1.20.1+build.10` | Passed | Not run |
+| 1.20.2 | 17 | 0.20.1 | [`0.91.6+1.20.2`](https://modrinth.com/mod/fabric-api/version/8GVp7wDk) | Yarn `1.20.2+build.4` | Passed | Not run |
+| 1.20.3 | 17 | 0.20.1 | [`0.91.1+1.20.3`](https://modrinth.com/mod/fabric-api/version/Yolngp3s) | Yarn `1.20.3+build.1` | Passed | Not run |
+| 1.20.4 | 17 | 0.20.1 | [`0.97.3+1.20.4`](https://modrinth.com/mod/fabric-api/version/BPX6fK06) | Yarn `1.20.4+build.3` | Passed | Not run |
+| 1.20.5 | 21 | 0.20.1 | [`0.97.8+1.20.5`](https://modrinth.com/mod/fabric-api/version/GCdY4I8I) | Yarn `1.20.5+build.1` | Passed | Not run |
+| 1.20.6 | 21 | 0.20.1 | [`0.100.8+1.20.6`](https://modrinth.com/mod/fabric-api/version/ocg4hG3t) | Yarn `1.20.6+build.3` | Passed | Not run |
+| 1.21 | 21 | 0.20.1 | [`0.102.0+1.21`](https://modrinth.com/mod/fabric-api/version/oGwyXeEI) | Yarn `1.21+build.9` | Passed | Not run |
+| 1.21.1 | 21 | 0.20.1 | [`0.116.18+1.21.1`](https://modrinth.com/mod/fabric-api/version/5SwzqWUu) | Yarn `1.21.1+build.3` | Passed | Not run |
+| 1.21.2 | 21 | 0.20.1 | [`0.106.1+1.21.2`](https://modrinth.com/mod/fabric-api/version/UEjZZNue) | Yarn `1.21.2+build.1` | Passed | Not run |
+| 1.21.3 | 21 | 0.20.1 | [`0.114.1+1.21.3`](https://modrinth.com/mod/fabric-api/version/wLq4rGsB) | Yarn `1.21.3+build.2` | Passed | Not run |
+| 1.21.4 | 21 | 0.20.1 | [`0.119.4+1.21.4`](https://modrinth.com/mod/fabric-api/version/p96k10UR) | Yarn `1.21.4+build.8` | Passed | Not run |
+| 1.21.5 | 21 | 0.20.1 | [`0.128.2+1.21.5`](https://modrinth.com/mod/fabric-api/version/kKEGlsne) | Yarn `1.21.5+build.1` | Passed | Not run |
+| 1.21.6 | 21 | 0.20.1 | [`0.128.2+1.21.6`](https://modrinth.com/mod/fabric-api/version/F5TVHWcE) | Yarn `1.21.6+build.1` | Passed | Not run |
+| 1.21.7 | 21 | 0.20.1 | [`0.129.0+1.21.7`](https://modrinth.com/mod/fabric-api/version/JntuF9Ul) | Yarn `1.21.7+build.8` | Passed | Not run |
+| 1.21.8 | 21 | 0.20.1 | [`0.136.1+1.21.8`](https://modrinth.com/mod/fabric-api/version/g58ofrov) | Yarn `1.21.8+build.1` | Passed | Not run |
+| 1.21.9 | 21 | 0.20.1 | [`0.134.1+1.21.9`](https://modrinth.com/mod/fabric-api/version/vczmWJBj) | Yarn `1.21.9+build.1` | Passed | Not run |
+| 1.21.10 | 21 | 0.20.1 | [`0.138.4+1.21.10`](https://modrinth.com/mod/fabric-api/version/tV4Gc0Zo) | Yarn `1.21.10+build.3` | Passed | Not run |
+| 1.21.11 | 21 | 0.20.1 | [`0.141.6+1.21.11`](https://modrinth.com/mod/fabric-api/version/6qAuTtLR) | Yarn `1.21.11+build.6` | Passed | Not run |
+| 26.1 | 25 | 0.20.1 | [`0.155.3+26.1.2`](https://modrinth.com/mod/fabric-api/version/3dM0X6ou) | Native Mojang names | Passed | Not run |
+| 26.1.1 | 25 | 0.20.1 | [`0.155.3+26.1.2`](https://modrinth.com/mod/fabric-api/version/3dM0X6ou) | Native Mojang names | Passed | Not run |
+| 26.1.2 | 25 | 0.20.1 | [`0.155.3+26.1.2`](https://modrinth.com/mod/fabric-api/version/3dM0X6ou) | Native Mojang names | Passed | Not run |
+| 26.2 | 25 | 0.20.1 | [`0.161.0+26.2`](https://modrinth.com/mod/fabric-api/version/ewUK83HI) | Native Mojang names | Passed | Not run |
+| 26.3 | 25 | 0.20.1 | [`0.166.2+26.3`](https://modrinth.com/mod/fabric-api/version/Zns5SSRA) | Native Mojang names | Passed | Phase 01 gameplay |
 
-Gradle 9.6.0 hosts Loom 1.17.21 on JDK 25. The older target compiles with `javac --release 8` and produces the remapped production jar. Use Java 8 to establish the legacy runtime baseline even though the build JVM is newer. Loader's target-specific version listing includes 0.20.1 on both. Published Fabric API builds are tied to Minecraft releases. Fabric Maven lists `0.42.0+1.16` for the legacy series and `0.166.2+26.3` for 26.3. Check the actual jar metadata because the suffix alone does not express its full game, Loader or Java constraints. Each target declares the tested Fabric API modules for base events, key mappings, lifecycle and rendering. The upstream Fabric API release supplies these modules when installed alongside Averion. [Fabric 1.16.5 Meta](https://meta.fabricmc.net/v2/versions/loader/1.16.5), [Fabric 26.3 Meta](https://meta.fabricmc.net/v2/versions/loader/26.3), [Fabric Loom reference](https://docs.fabricmc.net/develop/loom/), [Fabric 26.3 tooling](https://fabricmc.net/2026/09/15/263.html), [Fabric API Maven releases](https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api/), [Gradle JVM compatibility](https://docs.gradle.org/current/userguide/compatibility.html).
+## Verification results
 
-Loom's split environment setup requires a bundled server jar. The 1.16.5 target uses a merged game jar during development and declares the mod client-only. Put its optional target code in `targets/1.16.5/src/main/java`. The 26.3 build uses split environments. Put client-specific additions under `targets/26.3/src/client/java`.
+All 40 targets passed local Gradle builds, production JAR checks, and 21 shared JUnit cases each (840 total). The default build also passed offline for the entire catalog using the recorded dependency locks. The JARs were checked against the exact Fabric API bundles in the distribution example. The Gameplay column records historical Phase 01 runs for 1.16.5 and 26.3. Verification of the current JARs was limited to build, unit and package checks. [Phase 01 gameplay steps and results](PHASE_01_REPORT.md).
 
-## Phase 01 adapters
+## Integration boundaries
 
-| Integration | 1.16.5 | 26.3 |
-| --- | --- | --- |
-| Input | `KeyBindingHelper` registers a `KeyBinding` with a translated string category. The tick callback consumes `wasPressed()`. | `KeyMappingHelper` registers a `KeyMapping` with an identified category. The tick callback consumes `consumeClick()`. |
-| Rendering | `HudRenderCallback` passes a `MatrixStack`. The adapter calls `TextRenderer.drawWithShadow` and explicitly checks the vanilla hide-HUD flag. | `HudElementRegistry` attaches after `VanillaHudElements.BOSS_BAR` and inherits the vanilla HUD condition. The adapter extracts text with `GuiGraphicsExtractor`. |
-| Lifecycle and screen gating | Fabric client tick and stopping events. Vanilla screen, loading overlay and debug state are checked on the client. | Fabric client tick and stopping events. Screen and overlay state come from `Minecraft.gui`. |
-| Shared logic | Java 8-compatible runtime, game-provided Gson, one config format and the same tests. | Java 25 game integration using the same shared sources. |
+- **1.16–1.19.4** uses the Fabric matrix-stack HUD callback. Older Yarn builds use a different keybinding package. The first release uses Fabric's v0 client tick event and a client-stop mixin to flush settings because its API bundle has no v1 stopping event.
+- **1.20–1.21.5** uses the DrawContext HUD callback. Starting in 1.20.2, debug visibility comes from Minecraft's debug HUD.
+- **1.21.6–1.21.11** registers a Fabric HUD layer. Starting in 1.21.9, the Averion Controls entry uses an identified keybinding category.
+- **26.1–26.3** uses unobfuscated game names and GuiGraphicsExtractor. Starting in 26.2, screen and overlay state come from Minecraft's `Gui` object. [Fabric HUD registry](https://maven.fabricmc.net/docs/fabric-api-0.129.0%2B1.21.7/net/fabricmc/fabric/api/client/rendering/v1/hud/HudElementRegistry.html), [Fabric mapping transition](https://fabricmc.net/2026/03/14/261.html), [Fabric 26.2 GUI changes](https://fabricmc.net/2026/06/15/262.html).
 
-Build and packaged gameplay results are in the [Phase 01 report](PHASE_01_REPORT.md). Packaged game checks use each target's game JVM. Gradle and JUnit run on JDK 25. [Fabric 1.16 API](https://maven.fabricmc.net/docs/fabric-api-0.42.0%2B1.16/), [Fabric modern HUD](https://docs.fabricmc.net/develop/rendering/hud), [Fabric modern key mappings](https://docs.fabricmc.net/develop/key-mappings).
+Gradle compiles the shared HUD layout, input actions, notifications, settings, and lifecycle state for every target. Targets through 1.21.11 use Loom's remapping plugin and produce intermediary production jars. Starting in 26.1, targets use Loom's unobfuscated plugin and produce native-name jars. Every production file is named `averion-client-<minecraftId>.jar` and carries the exact Minecraft dependency and the independent Averion release version.
 
-## Porting boundaries
+## Repeating verification
 
-- Mojang's per-version metadata lists Java 8 for 1.16.5, 16 for 1.17.1, 17 for 1.18.2 and 1.20.4, 21 for 1.20.5 and 1.21.11, and 25 for 26.3. Park the compiler and runtime constraints with each target. Pre-26.1 targets need mappings and remapping. Newer releases are unobfuscated. Prefer Mojang names on new obfuscated ports where practical to ease comparison with current sources. [Mojang metadata](https://piston-meta.mojang.com/mc/game/version_manifest_v2.json), [Fabric mapping transition](https://fabricmc.net/2026/03/14/261.html).
-- Legacy GUI and HUD integrations use matrix-stack-era drawing. Later versions introduced GUI draw contexts, then extraction-based GUI and HUD rendering and ordered HUD elements. Screen init/input/render hooks and callback signatures belong in the adapter. Use current documented hooks for modern HUD and screens. Avoid direct OpenGL assumptions because 26.3 exposes a Vulkan backend as well. [Fabric 1.21.6 rendering changes](https://fabricmc.net/2025/06/15/1216.html), [Fabric HUD](https://docs.fabricmc.net/develop/rendering/hud), [Fabric screens](https://docs.fabricmc.net/develop/rendering/gui/custom-screens), [Minecraft 26.3 release notes](https://www.minecraft.net/en-us/article/minecraft-java-edition-26-3).
-- Legacy custom networking uses channel IDs and buffers. Modern play networking uses registered typed payloads and codecs, with distinct configuration and play phases. Client start, tick, connect/disconnect and reload hooks depend on the target's Fabric API release or vanilla surface. Keep connection state and lifecycle dispatch version-local. [Fabric 1.20.5 changes](https://fabricmc.net/2024/04/19/1205.html), [Fabric networking](https://docs.fabricmc.net/develop/networking).
-- Namespaced assets can share source when formats agree. Game and resource pack versions, resource reload APIs, shader assets, atlases and localization behavior must be reviewed for each port. Ship original assets only. Third-party jars need their own game, Loader, Java and side checks regardless of the Averion target. [Fabric resource generation](https://docs.fabricmc.net/develop/data-generation/setup), [Fabric 26.3 changes](https://fabricmc.net/2026/09/15/263.html).
-
-## Enabling a target
-
-Add a target subproject with exact versions, register it in `settings.gradle`, and add a CI row. Use `-PaverionTarget=<minecraft>` to resolve and build one target in isolation. Implement only its required adapters. Verify both the jar's metadata and bytecode, then smoke-test title screen, world join/leave and each enabled feature on the declared JRE. Test optional optimizers independently and together before claiming their compatibility. Publish only rows meeting the release gate. Track compile checks, test results, runtime verification and OS separately. Intermediate versions are planned ports and require their own validation. The launcher must treat a missing signed target as unavailable. Record actual results in the phase report.
+Use `./gradlew -PaverionTarget=<minecraftId> build` for one release. A comma-separated list selects a batch of independent targets. Each build runs the shared JUnit suite and validates its production jar's metadata, filename and bytecode. Run the packaged game on the Java version in the matrix to verify rendering, F8, Controls remapping, and persistence. Historical full gameplay runs are recorded in the [Phase 01 report](PHASE_01_REPORT.md).

@@ -1,12 +1,17 @@
 import groovy.json.JsonSlurper
+import java.util.jar.Manifest
 import java.util.zip.ZipFile
 
 def targetMinecraft = minecraftVersion
 def targetLoader = fabricLoaderVersion
 def targetJava = gameJava
-def usesMappings = project.hasProperty('yarnVersion')
+def usesMappings = yarnVersion != null
+def fabricKeyModule = usesMappings ? 'fabric-key-binding-api-v1' : 'fabric-key-mapping-api-v1'
+def legacyLifecycle = targetAdapters.contains('lifecycle-v0')
+def lifecycleModule = legacyLifecycle ? 'fabric-events-lifecycle-v0' : 'fabric-lifecycle-events-v1'
 def splitSources = splitClientSources
 def clientVersion = providers.gradleProperty('averionVersion').get()
+def productionJarName = "averion-client-${targetMinecraft}.jar"
 
 group = 'dev.averion'
 version = clientVersion
@@ -32,6 +37,9 @@ loom {
 
 def clientSources = splitSources ? sourceSets.client : sourceSets.main
 clientSources.java.srcDir rootProject.file('shared/src/client/java')
+targetAdapters.each { adapter ->
+    clientSources.java.srcDir rootProject.file("adapters/${adapter}/java")
+}
 
 sourceSets {
     main.resources.srcDir rootProject.file('shared/src/main/resources')
@@ -62,7 +70,7 @@ def runtimeDependencies = [
     minecraft   : "=$targetMinecraft".toString(),
     java        : ">=$targetJava".toString()
 ]
-def fabricModules = ['fabric-api-base', fabricKeyModule, 'fabric-lifecycle-events-v1', 'fabric-rendering-v1']
+def fabricModules = ['fabric-api-base', fabricKeyModule, lifecycleModule, 'fabric-rendering-v1']
 
 dependencies {
     minecraft "com.mojang:minecraft:$targetMinecraft"
@@ -111,11 +119,17 @@ tasks.named('processResources') {
         fabricBaseVersion     : runtimeDependencies['fabric-api-base'],
         fabricKeyModule       : fabricKeyModule,
         fabricKeyVersion      : runtimeDependencies[fabricKeyModule],
-        fabricLifecycleVersion: runtimeDependencies['fabric-lifecycle-events-v1'],
+        fabricLifecycleModule : lifecycleModule,
+        fabricLifecycleVersion: runtimeDependencies[lifecycleModule],
         fabricRenderingVersion: runtimeDependencies['fabric-rendering-v1']
     ]
     inputs.properties(metadata)
     filesMatching('fabric.mod.json') {
+        if (legacyLifecycle) {
+            filter { String line ->
+                line == '  "mixins": [],' ? '  "mixins": ["averion_client.1.16.mixins.json"],' : line
+            }
+        }
         expand(metadata)
     }
 }
@@ -127,15 +141,33 @@ tasks.withType(AbstractArchiveTask).configureEach {
     reproducibleFileOrder = true
 }
 
-def productionJar = tasks.named(productionTask).flatMap { it.archiveFile }
+def removeLegacyJars = tasks.register('removeLegacyJars', Delete) {
+    delete layout.buildDirectory.map { directory ->
+        directory.asFileTree.matching {
+            include "libs/averion-client-*-phase.*-mc${targetMinecraft}.jar"
+            include "devlibs/averion-client-*-phase.*-mc${targetMinecraft}-dev.jar"
+        }
+    }
+}
+
+def productionJar = tasks.named(productionTask) {
+    archiveFileName = productionJarName
+    dependsOn removeLegacyJars
+}.flatMap { it.archiveFile }
 
 tasks.register('verifyClientJar') {
     group = 'verification'
-    description = 'Checks the packaged client metadata, entrypoint and Java version.'
+    description = 'Checks the production filename, client metadata, entrypoint and Java version.'
     inputs.file(productionJar)
     doLast {
         def archive = productionJar.get().asFile
         new ZipFile(archive).withCloseable { zip ->
+            def manifestEntry = zip.getEntry('META-INF/MANIFEST.MF')
+            assert manifestEntry != null
+            zip.getInputStream(manifestEntry).withCloseable { stream ->
+                assert new Manifest(stream).mainAttributes.getValue('Fabric-Mapping-Namespace') ==
+                        (usesMappings ? 'intermediary' : 'official')
+            }
             def metadataEntry = zip.getEntry('fabric.mod.json')
             assert metadataEntry != null
             def metadata = zip.getInputStream(metadataEntry).withCloseable { stream ->
@@ -149,6 +181,11 @@ tasks.register('verifyClientJar') {
             assert zip.getEntry('dev/averion/client/ClientHooks.class') != null
             assert zip.getEntry('assets/averion_client/lang/en_us.json') != null
             assert metadata.jars == null
+            assert metadata.mixins == (legacyLifecycle ? ['averion_client.1.16.mixins.json'] : [])
+            if (legacyLifecycle) {
+                assert zip.getEntry('averion_client.1.16.mixins.json') != null
+                assert zip.getEntry('dev/averion/client/mixin/LegacyClientStopMixin.class') != null
+            }
             def entrypoint = 'dev.averion.client.AverionClient'
             assert metadata.entrypoints == [client: [entrypoint]]
             assert zip.getEntry(entrypoint.replace('.', '/') + '.class') != null
@@ -160,7 +197,7 @@ tasks.register('verifyClientJar') {
                     assert stream.readUnsignedShort() == 44 + targetJava
                 }
             }
-            assert archive.name == "averion-client-$clientVersion-mc${targetMinecraft}.jar"
+            assert archive.name == productionJarName
         }
     }
 }
