@@ -1,0 +1,42 @@
+plugins {
+    id 'base'
+    id 'net.fabricmc.fabric-loom-remap' version '1.17.21' apply false
+    id 'net.fabricmc.fabric-loom' version '1.17.21' apply false
+}
+
+def projectTextFiles = fileTree(rootDir) {
+    include '*.gradle', '*.properties', '*.md', '.gitignore', '.gitattributes'
+    include '.github/**/*.yml', 'docs/**/*.md', 'distribution/**/*.json', 'gradle/**/*.gradle'
+    include 'gradle/wrapper/*.properties', 'shared/src/**/*.java', 'shared/src/**/*.json'
+    include 'targets/*/build.gradle', 'targets/*/gradle.lockfile', 'targets/*/src/**/*.java', 'targets/*/src/**/*.json'
+}
+
+tasks.register('checkFormatting') {
+    group = 'verification'
+    description = 'Checks Averion source and metadata for consistent whitespace.'
+    inputs.files(projectTextFiles)
+    doLast {
+        def violations = []
+        projectTextFiles.files.sort().each { source ->
+            def contents = source.getText('UTF-8')
+            if (!contents.endsWith('\n') || contents.endsWith('\n\n') || contents.contains('\r')
+                    || contents.readLines().any { it ==~ /.*[ \t]+$/ }) {
+                violations.add(rootDir.toPath().relativize(source.toPath()))
+            }
+        }
+        if (!violations.isEmpty()) {
+            throw new GradleException("Invalid whitespace in: ${violations.join(', ')}")
+        }
+    }
+}
+
+def clientProjects = project(':targets').childProjects.values()
+
+tasks.named('check') {
+    dependsOn 'checkFormatting'
+    dependsOn clientProjects.collect { "${it.path}:check" }
+}
+
+tasks.named('assemble') {
+    dependsOn clientProjects.collect { "${it.path}:assemble" }
+}

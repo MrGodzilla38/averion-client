@@ -1,0 +1,56 @@
+package dev.averion.client;
+
+import com.mojang.blaze3d.platform.InputConstants;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.resources.Identifier;
+
+final class ClientHooks implements HudText {
+    private final ClientRuntime runtime;
+    private GuiGraphicsExtractor graphics;
+
+    private ClientHooks(ClientRuntime runtime) {
+        this.runtime = runtime;
+    }
+
+    static void register(ClientRuntime runtime) {
+        ClientHooks hooks = new ClientHooks(runtime);
+        KeyMapping.Category category = KeyMapping.Category.register(
+                Identifier.fromNamespaceAndPath("averion_client", "controls"));
+        KeyMapping toggle = KeyMappingHelper.registerKeyMapping(
+                new KeyMapping(KeyBindings.TOGGLE_HUD, InputConstants.KEY_F8, category));
+        runtime.keys().register(KeyBindings.TOGGLE_HUD, toggle::isDown, toggle::consumeClick, runtime::toggleHud);
+        ClientTickEvents.END_CLIENT_TICK.register(client -> runtime.tick(playing(client) && client.isWindowActive()));
+        HudElementRegistry.attachElementAfter(
+                VanillaHudElements.BOSS_BAR, Identifier.fromNamespaceAndPath("averion_client", HudFeature.ID), hooks::render);
+        ClientLifecycleEvents.CLIENT_STOPPING.register(client -> runtime.close());
+    }
+
+    private static boolean playing(Minecraft client) {
+        return client.level != null && client.player != null && client.gui.screen() == null && client.gui.overlay() == null;
+    }
+
+    private void render(GuiGraphicsExtractor extractor, DeltaTracker deltaTracker) {
+        Minecraft client = Minecraft.getInstance();
+        if (playing(client) && !client.getDebugOverlay().showDebugScreen()) {
+            graphics = extractor;
+            try {
+                runtime.render(this);
+            } finally {
+                graphics = null;
+            }
+        }
+    }
+
+    @Override
+    public void draw(String text, int x, int y, int color) {
+        graphics.text(Minecraft.getInstance().font, text, x, y, color, true);
+    }
+}

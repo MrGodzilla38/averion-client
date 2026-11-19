@@ -1,0 +1,34 @@
+# Minecraft version support
+
+The support goal spans Minecraft Java Edition 1.16.5 through the newest stable release that meets the Fabric and Averion release gates. Each exact Minecraft version is an independent build and release target. On 2026-11-18, Mojang listed 26.3 as the stable release and 26.4-snapshot-10 as the snapshot. [Mojang version index](https://piston-meta.mojang.com/mc/game/version_manifest_v2.json), [Minecraft 26.3 release notes](https://www.minecraft.net/en-us/article/minecraft-java-edition-26-3).
+
+| Phase 01 build target | Gradle JVM | Game JVM / bytecode | Loom mode | Mappings | Fabric Loader | Fabric API |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1.16.5, baseline | 25 | 8 | `net.fabricmc.fabric-loom-remap` | Yarn `1.16.5+build.10` | 0.20.1 | `0.42.0+1.16` |
+| 26.3, modern endpoint | 25 | 25 | `net.fabricmc.fabric-loom` | Native game names | 0.20.1 | `0.166.2+26.3` |
+
+Gradle 9.6.0 hosts Loom 1.17.21 on JDK 25. The older target compiles with `javac --release 8` and produces the remapped production jar. Use Java 8 to establish the legacy runtime baseline even though the build JVM is newer. Loader's target-specific version listing includes 0.20.1 on both. Published Fabric API builds are tied to Minecraft releases. Fabric Maven lists `0.42.0+1.16` for the legacy series and `0.166.2+26.3` for 26.3. Check the actual jar metadata because the suffix alone does not express its full game, Loader or Java constraints. Each target declares the tested Fabric API modules for base events, key mappings, lifecycle and rendering. The upstream Fabric API release supplies these modules when installed alongside Averion. [Fabric 1.16.5 Meta](https://meta.fabricmc.net/v2/versions/loader/1.16.5), [Fabric 26.3 Meta](https://meta.fabricmc.net/v2/versions/loader/26.3), [Fabric Loom reference](https://docs.fabricmc.net/develop/loom/), [Fabric 26.3 tooling](https://fabricmc.net/2026/09/15/263.html), [Fabric API Maven releases](https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api/), [Gradle JVM compatibility](https://docs.gradle.org/current/userguide/compatibility.html).
+
+Loom's split environment setup requires a bundled server jar. The 1.16.5 target uses a merged game jar during development and declares the mod client-only. Put its optional target code in `targets/1.16.5/src/main/java`. The 26.3 build uses split environments. Put client-specific additions under `targets/26.3/src/client/java`.
+
+## Phase 01 adapters
+
+| Integration | 1.16.5 | 26.3 |
+| --- | --- | --- |
+| Input | `KeyBindingHelper` registers a `KeyBinding` with a translated string category. The tick callback consumes `wasPressed()`. | `KeyMappingHelper` registers a `KeyMapping` with an identified category. The tick callback consumes `consumeClick()`. |
+| Rendering | `HudRenderCallback` passes a `MatrixStack`. The adapter calls `TextRenderer.drawWithShadow` and explicitly checks the vanilla hide-HUD flag. | `HudElementRegistry` attaches after `VanillaHudElements.BOSS_BAR` and inherits the vanilla HUD condition. The adapter extracts text with `GuiGraphicsExtractor`. |
+| Lifecycle and screen gating | Fabric client tick and stopping events. Vanilla screen, loading overlay and debug state are checked on the client. | Fabric client tick and stopping events. Screen and overlay state come from `Minecraft.gui`. |
+| Shared logic | Java 8-compatible runtime, game-provided Gson, one config format and the same tests. | Java 25 game integration using the same shared sources. |
+
+Build and packaged gameplay results are in the [Phase 01 report](PHASE_01_REPORT.md). Packaged game checks use each target's game JVM. Gradle and JUnit run on JDK 25. [Fabric 1.16 API](https://maven.fabricmc.net/docs/fabric-api-0.42.0%2B1.16/), [Fabric modern HUD](https://docs.fabricmc.net/develop/rendering/hud), [Fabric modern key mappings](https://docs.fabricmc.net/develop/key-mappings).
+
+## Porting boundaries
+
+- Mojang's per-version metadata lists Java 8 for 1.16.5, 16 for 1.17.1, 17 for 1.18.2 and 1.20.4, 21 for 1.20.5 and 1.21.11, and 25 for 26.3. Park the compiler and runtime constraints with each target. Pre-26.1 targets need mappings and remapping. Newer releases are unobfuscated. Prefer Mojang names on new obfuscated ports where practical to ease comparison with current sources. [Mojang metadata](https://piston-meta.mojang.com/mc/game/version_manifest_v2.json), [Fabric mapping transition](https://fabricmc.net/2026/03/14/261.html).
+- Legacy GUI and HUD integrations use matrix-stack-era drawing. Later versions introduced GUI draw contexts, then extraction-based GUI and HUD rendering and ordered HUD elements. Screen init/input/render hooks and callback signatures belong in the adapter. Use current documented hooks for modern HUD and screens. Avoid direct OpenGL assumptions because 26.3 exposes a Vulkan backend as well. [Fabric 1.21.6 rendering changes](https://fabricmc.net/2025/06/15/1216.html), [Fabric HUD](https://docs.fabricmc.net/develop/rendering/hud), [Fabric screens](https://docs.fabricmc.net/develop/rendering/gui/custom-screens), [Minecraft 26.3 release notes](https://www.minecraft.net/en-us/article/minecraft-java-edition-26-3).
+- Legacy custom networking uses channel IDs and buffers. Modern play networking uses registered typed payloads and codecs, with distinct configuration and play phases. Client start, tick, connect/disconnect and reload hooks depend on the target's Fabric API release or vanilla surface. Keep connection state and lifecycle dispatch version-local. [Fabric 1.20.5 changes](https://fabricmc.net/2024/04/19/1205.html), [Fabric networking](https://docs.fabricmc.net/develop/networking).
+- Namespaced assets can share source when formats agree. Game and resource pack versions, resource reload APIs, shader assets, atlases and localization behavior must be reviewed for each port. Ship original assets only. Third-party jars need their own game, Loader, Java and side checks regardless of the Averion target. [Fabric resource generation](https://docs.fabricmc.net/develop/data-generation/setup), [Fabric 26.3 changes](https://fabricmc.net/2026/09/15/263.html).
+
+## Enabling a target
+
+Add a target subproject with exact versions, register it in `settings.gradle`, and add a CI row. Use `-PaverionTarget=<minecraft>` to resolve and build one target in isolation. Implement only its required adapters. Verify both the jar's metadata and bytecode, then smoke-test title screen, world join/leave and each enabled feature on the declared JRE. Test optional optimizers independently and together before claiming their compatibility. Publish only rows meeting the release gate. Track compile checks, test results, runtime verification and OS separately. Intermediate versions are planned ports and require their own validation. The launcher must treat a missing signed target as unavailable. Record actual results in the phase report.

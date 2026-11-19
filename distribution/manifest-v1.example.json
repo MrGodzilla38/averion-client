@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "clientVersion": "0.1.0-phase.0",
+  "channel": "preview",
+  "sequence": 1,
+  "targets": [
+    {
+      "minecraftVersion": "1.16.5",
+      "javaMajor": 8,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-0.1.0-phase.0-mc1.16.5.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0-phase.0/averion-client-0.1.0-phase.0-mc1.16.5.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": []
+    },
+    {
+      "minecraftVersion": "26.3",
+      "javaMajor": 25,
+      "fabricLoaderVersion": "0.20.1",
+      "artifact": {
+        "fileName": "averion-client-0.1.0-phase.0-mc26.3.jar",
+        "url": "https://github.com/MrGodzilla38/averion-client/releases/download/v0.1.0-phase.0/averion-client-0.1.0-phase.0-mc26.3.jar",
+        "size": 1,
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "requiredDependencies": []
+    }
+  ]
+}

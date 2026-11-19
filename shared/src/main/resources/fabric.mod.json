@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "averion_client",
+  "version": "${clientVersion}",
+  "name": "Averion Client",
+  "description": "The client-side component of the Averion ecosystem.",
+  "contact": {
+    "sources": "https://github.com/MrGodzilla38/averion-client"
+  },
+  "environment": "client",
+  "entrypoints": {
+    "client": ["dev.averion.client.AverionClient"]
+  },
+  "depends": {
+    "fabricloader": "=${fabricLoaderVersion}",
+    "minecraft": "=${minecraftVersion}",
+    "java": ">=${gameJava}",
+    "fabric-api-base": "${fabricBaseVersion}",
+    "${fabricKeyModule}": "${fabricKeyVersion}",
+    "fabric-lifecycle-events-v1": "${fabricLifecycleVersion}",
+    "fabric-rendering-v1": "${fabricRenderingVersion}"
+  }
+}

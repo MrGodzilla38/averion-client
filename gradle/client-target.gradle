@@ -1,0 +1,170 @@
+import groovy.json.JsonSlurper
+import java.util.zip.ZipFile
+
+def targetMinecraft = minecraftVersion
+def targetLoader = fabricLoaderVersion
+def targetJava = gameJava
+def usesMappings = project.hasProperty('yarnVersion')
+def splitSources = splitClientSources
+def clientVersion = providers.gradleProperty('averionVersion').get()
+
+group = 'dev.averion'
+version = clientVersion
+
+repositories {
+    mavenCentral()
+}
+
+loom {
+    if (splitSources) {
+        splitEnvironmentSourceSets()
+    }
+
+    mods {
+        averion_client {
+            sourceSet sourceSets.main
+            if (splitSources) {
+                sourceSet sourceSets.client
+            }
+        }
+    }
+}
+
+def clientSources = splitSources ? sourceSets.client : sourceSets.main
+clientSources.java.srcDir rootProject.file('shared/src/client/java')
+
+sourceSets {
+    main.resources.srcDir rootProject.file('shared/src/main/resources')
+    test {
+        java.srcDir rootProject.file('shared/src/test/java')
+        compileClasspath += clientSources.output
+        runtimeClasspath += clientSources.output
+    }
+}
+
+dependencyLocking {
+    lockMode = LockMode.STRICT
+}
+
+// Lock build and test classpaths. Loom resolves runClient natives separately for the host OS.
+def lockedClasspaths = ['compileClasspath', 'testCompileClasspath', 'testRuntimeClasspath']
+if (splitSources) {
+    lockedClasspaths.add('clientCompileClasspath')
+}
+lockedClasspaths.each { name ->
+    configurations.named(name) {
+        resolutionStrategy.activateDependencyLocking()
+    }
+}
+
+def runtimeDependencies = [
+    fabricloader: "=$targetLoader".toString(),
+    minecraft   : "=$targetMinecraft".toString(),
+    java        : ">=$targetJava".toString()
+]
+def fabricModules = ['fabric-api-base', fabricKeyModule, 'fabric-lifecycle-events-v1', 'fabric-rendering-v1']
+
+dependencies {
+    minecraft "com.mojang:minecraft:$targetMinecraft"
+    if (usesMappings) {
+        mappings "net.fabricmc:yarn:$yarnVersion:v2"
+        modImplementation "net.fabricmc:fabric-loader:$targetLoader"
+    } else {
+        implementation "net.fabricmc:fabric-loader:$targetLoader"
+    }
+
+    fabricModules.each { id ->
+        def module = fabricApi.module(id, fabricApiVersion)
+        add(usesMappings ? 'modImplementation' : 'clientImplementation', module)
+        runtimeDependencies[id] = "=${module.version}".toString()
+    }
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.13.4'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.13.4'
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(25)
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.release = targetJava
+    options.encoding = 'UTF-8'
+    options.compilerArgs.addAll(['-Xlint:all', '-Werror'])
+    if (targetJava == 8) {
+        // JDK 25 warns about obsolete compiler options when intentionally targeting Java 8.
+        options.compilerArgs.add('-Xlint:-options')
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+    workingDir = layout.buildDirectory.get().asFile
+}
+
+tasks.named('processResources') {
+    def metadata = [
+        clientVersion         : clientVersion,
+        minecraftVersion      : targetMinecraft,
+        fabricLoaderVersion   : targetLoader,
+        gameJava              : targetJava,
+        fabricBaseVersion     : runtimeDependencies['fabric-api-base'],
+        fabricKeyModule       : fabricKeyModule,
+        fabricKeyVersion      : runtimeDependencies[fabricKeyModule],
+        fabricLifecycleVersion: runtimeDependencies['fabric-lifecycle-events-v1'],
+        fabricRenderingVersion: runtimeDependencies['fabric-rendering-v1']
+    ]
+    inputs.properties(metadata)
+    filesMatching('fabric.mod.json') {
+        expand(metadata)
+    }
+}
+
+tasks.withType(AbstractArchiveTask).configureEach {
+    archiveBaseName = 'averion-client'
+    archiveVersion = "$clientVersion-mc$targetMinecraft"
+    preserveFileTimestamps = false
+    reproducibleFileOrder = true
+}
+
+def productionJar = tasks.named(productionTask).flatMap { it.archiveFile }
+
+tasks.register('verifyClientJar') {
+    group = 'verification'
+    description = 'Checks the packaged client metadata, entrypoint and Java version.'
+    inputs.file(productionJar)
+    doLast {
+        def archive = productionJar.get().asFile
+        new ZipFile(archive).withCloseable { zip ->
+            def metadataEntry = zip.getEntry('fabric.mod.json')
+            assert metadataEntry != null
+            def metadata = zip.getInputStream(metadataEntry).withCloseable { stream ->
+                new JsonSlurper().parse(stream)
+            }
+            assert metadata.id == 'averion_client'
+            assert metadata.schemaVersion == 1
+            assert metadata.environment == 'client'
+            assert metadata.version == clientVersion
+            assert metadata.depends == runtimeDependencies
+            assert zip.getEntry('dev/averion/client/ClientHooks.class') != null
+            assert zip.getEntry('assets/averion_client/lang/en_us.json') != null
+            assert metadata.jars == null
+            def entrypoint = 'dev.averion.client.AverionClient'
+            assert metadata.entrypoints == [client: [entrypoint]]
+            assert zip.getEntry(entrypoint.replace('.', '/') + '.class') != null
+            zip.entries().findAll { it.name.endsWith('.class') }.each { entry ->
+                assert entry.name.startsWith('dev/averion/client/')
+                new DataInputStream(zip.getInputStream(entry)).withCloseable { stream ->
+                    assert Integer.toUnsignedLong(stream.readInt()) == 0xCAFEBABEL
+                    stream.readUnsignedShort()
+                    assert stream.readUnsignedShort() == 44 + targetJava
+                }
+            }
+            assert archive.name == "averion-client-$clientVersion-mc${targetMinecraft}.jar"
+        }
+    }
+}
+
+tasks.named('check') {
+    dependsOn 'verifyClientJar'
+}

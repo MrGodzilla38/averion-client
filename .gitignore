@@ -1,0 +1,33 @@
+# Gradle state and generated outputs
+.gradle/
+build/
+local.properties
+
+# IDE metadata and compiler outputs
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+.vscode/
+.classpath
+.project
+.settings/
+.factorypath
+
+# Local Minecraft runs and Java diagnostics
+run/
+logs/
+crash-reports/
+hs_err_pid*.log
+replay_pid*.log
+
+# Local environment overrides and temporary files
+.env
+.env.local
+.env.*.local
+*.tmp
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
