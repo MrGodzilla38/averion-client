@@ -4,6 +4,10 @@ Averion Client is the Fabric-based Minecraft Java Edition client for the Averion
 
 The target catalog covers all **40 stable Minecraft Java Edition releases** from **1.16** (also called 1.16.0) through **26.3**. The [compatibility matrix](docs/MULTI_VERSION_SUPPORT.md) lists the game Java and Fabric API pins and distinguishes build results from gameplay verification.
 
+## HUD Editor
+
+Open ClickGUI with **Right Shift**, then click **HUD Editor** in the left sidebar. Its optional keybind is unassigned by default. The editor shows enabled HUD elements. Drag to position them, use the controls to change scale or alignment, or use **Delete** to disable the selected element when you save. Re-enable it from its module card. **Save & back** applies the layout and saves it for the profile. **Esc** discards the draft and returns to ClickGUI. [Controls and extension points](docs/FEATURE_SYSTEM.md), [Phase 03 verification](docs/PHASE_03_REPORT.md).
+
 ## Build
 
 Install JDK 25 and set `JAVA_HOME` to it. Use the checked-in Gradle 9.6.0 wrapper. The first build needs network access to download Minecraft development files and build dependencies. On Windows, use `gradlew.bat`.

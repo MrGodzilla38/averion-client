@@ -1,7 +1,7 @@
 package dev.averion.client;
 
 /** Counts rendered frames over one-second windows on the render thread. */
-final class FpsFeature extends Feature {
+final class FpsFeature extends HudElement {
     private final Setting.Color color = setting(new Setting.Color("color", "Text color", 0x92DBEF));
     private final Setting.Toggle shadow = setting(new Setting.Toggle("shadow", "Text shadow", true));
     private long start;
@@ -10,7 +10,7 @@ final class FpsFeature extends Feature {
     private String label = "— FPS";
 
     FpsFeature() {
-        super("fps", "FPS Counter", "Shows the current frame rate.", Category.HUD, false);
+        super("fps", "FPS Counter", "Shows the current frame rate.", 8, 58);
     }
 
     void frame(long now) {
@@ -31,7 +31,7 @@ final class FpsFeature extends Feature {
     }
 
     @Override
-    void preview(HudText text) {
-        text.draw(label, 8, 8, 0xFF000000 | color.value(), shadow.value());
+    void drawContent(HudText text) {
+        text.draw(label, 0, 0, 0xFF000000 | color.value(), shadow.value());
     }
 }

@@ -20,7 +20,7 @@ abstract class YarnGuiInput extends YarnBackdrop {
 
     @Override
     protected void init() {
-        input.gui.resize(width, height);
+        input.resize(width, height);
     }
 
     @Override
@@ -56,15 +56,15 @@ abstract class YarnGuiInput extends YarnBackdrop {
 
     @Override
     public boolean mouseDragged(double x, double y, int button, double dx, double dy) {
-        return input.gui.drag(x, button);
+        return input.drag(x, y, button);
     }
 
     // Yarn changed the scroll signature in 1.20.2.
     public boolean mouseScrolled(double x, double y, double vertical) {
-        return input.gui.scroll(x, y, vertical);
+        return input.scroll(x, y, vertical);
     }
 
     public boolean mouseScrolled(double x, double y, double horizontal, double vertical) {
-        return input.gui.scroll(x, y, vertical);
+        return input.scroll(x, y, vertical);
     }
 }

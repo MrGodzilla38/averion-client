@@ -35,7 +35,31 @@ class ClientRuntimeTest {
 
     private static List<String> render(ClientRuntime runtime) {
         List<String> lines = new ArrayList<>();
-        runtime.render((text, x, y, color, shadow) -> lines.add(text));
+        runtime.render(canvas((text, x, y, color, shadow) -> lines.add(text)), 320, 240);
         return lines;
+    }
+
+    static HudCanvas canvas(HudText capture) {
+        return new HudCanvas() {
+            @Override
+            public int textWidth(String text) {
+                return text.length();
+            }
+
+            @Override
+            public int lineHeight() {
+                return 9;
+            }
+
+            @Override
+            public void draw(String text, int x, int y, int color, boolean shadow) {
+                capture.draw(text, x, y, color, shadow);
+            }
+
+            @Override
+            public void drawScaled(String text, float x, float y, int color, boolean shadow, float scale) {
+                capture.draw(text, Math.round(x), Math.round(y), color, shadow);
+            }
+        };
     }
 }

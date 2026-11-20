@@ -25,6 +25,7 @@ final class ClickGui {
     private static final int HEADER = 30;
     private static final int COLUMN_HEADER = 20;
     private static final int FOOTER = 18;
+    private static final int HUD_BUTTON_HEIGHT = 23;
     private static final int QUERY_LIMIT = 64;
     private static final String[] CHANNELS = {"Red", "Green", "Blue"};
     private static final int[] CHANNEL_COLORS = {0xFFF09398, 0xFF83CCAA, 0xFF83B9EC};
@@ -78,8 +79,9 @@ final class ClickGui {
         int rows = Math.max(0, (bottom - FOOTER - body) / ROW_HEIGHT);
         int railEnd = left + Math.min(126, panelWidth / 4);
         int listEnd = selected == null ? right : railEnd + (panelWidth - (railEnd - left)) * 43 / 100;
-        navigation.layout(left, railEnd, body, rows, categories.size());
         int available = bottom - FOOTER - body;
+        int categoryRows = Math.max(0, (available - HUD_BUTTON_HEIGHT) / ROW_HEIGHT);
+        navigation.layout(left, railEnd, body, categoryRows, categories.size());
         modules.stride = Math.max(1, Math.min(123, available));
         cardColumns = Math.max(1, Math.min(3, (listEnd - railEnd) / 112));
         modules.layout(railEnd, listEnd, body, available / modules.stride, cardRows());
@@ -140,6 +142,11 @@ final class ClickGui {
             canvas.fill(gx + 5, y + 12, gx + 10, y + 16, MUTED);
             canvas.text(item.label, gx + 15, y + 8, WHITE, modules.left - gx - 22);
         }
+        int editorTop = hudEditorTop();
+        rounded(canvas, left + 5, editorTop, navigation.right - 5, editorTop + HUD_BUTTON_HEIGHT,
+                hudEditorHit(mouseX, mouseY, 0) ? HOVER : INSET);
+        canvas.text("HUD Editor", left + 10, editorTop + 8, WHITE, navigation.right - left - 16);
+
         for (int index = modules.offset * cardColumns;
                 index < Math.min(results.size(), modules.end(cardRows()) * cardColumns); index++) {
             drawCard(canvas, index, mouseX, mouseY);
@@ -156,7 +163,8 @@ final class ClickGui {
 
         String status = runtime.configurationStatus();
         String footer = status.isEmpty() ? "Esc  ·  Close" : status;
-        canvas.text(footer, left + PADDING, bottom - 12, status.isEmpty() ? MUTED : 0xFFF1C592, right - left - 16);
+        canvas.text(footer, left + PADDING, bottom - 12, status.isEmpty() ? MUTED : 0xFFF1C592,
+                right - left - PADDING * 2);
     }
 
     private int cardRows() {
@@ -340,7 +348,7 @@ final class ClickGui {
     }
 
     private static void scrollbar(GuiCanvas canvas, Column column, int count) {
-        if (count <= column.rows) {
+        if (column.rows == 0 || count <= column.rows) {
             return;
         }
         int height = column.rows * column.stride;
@@ -352,6 +360,16 @@ final class ClickGui {
 
     boolean closeHit(double x, double y, int button) {
         return button == 0 && usable() && hovered(x, y, right - 22, top + 5, right - 4, top + 25);
+    }
+
+    boolean hudEditorHit(double x, double y, int button) {
+        int editorTop = hudEditorTop();
+        return button == 0 && usable()
+                && hovered(x, y, left + 5, editorTop, navigation.right - 5, editorTop + HUD_BUTTON_HEIGHT);
+    }
+
+    private int hudEditorTop() {
+        return navigation.y(navigation.end(categories.size()));
     }
 
     boolean click(double x, double y, int button) {
@@ -579,7 +597,7 @@ final class ClickGui {
     }
 
     private boolean usable() {
-        return right - left >= 152 && navigation.rows > 0;
+        return right - left >= 152 && settings.rows > 0;
     }
 
     private static boolean hovered(double x, double y, int left, int top, int right, int bottom) {

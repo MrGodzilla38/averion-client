@@ -103,6 +103,10 @@ tasks.withType(JavaCompile).configureEach {
         // JDK 25 warns about obsolete compiler options when intentionally targeting Java 8.
         options.compilerArgs.add('-Xlint:-options')
     }
+    if (targetMinecraft == '26.3' && name == 'compileClientJava') {
+        // The game's JOML 1.10.9 includes type annotations in version 46 matrix classfiles.
+        options.compilerArgs.add('-Xlint:-classfile')
+    }
 }
 
 tasks.named('test') {

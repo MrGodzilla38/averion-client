@@ -7,6 +7,7 @@ import java.util.function.BooleanSupplier;
 final class KeyBindings {
     static final String TOGGLE_HUD = "key.averion_client.toggle_hud";
     static final String TOGGLE_GUI = "key.averion_client.toggle_gui";
+    static final String OPEN_HUD_EDITOR = "key.averion_client.open_hud_editor";
     static final String CATEGORY = "key.category.averion_client.controls";
 
     private final List<Binding> bindings = new ArrayList<>();

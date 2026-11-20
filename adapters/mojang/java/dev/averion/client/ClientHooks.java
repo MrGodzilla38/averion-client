@@ -12,7 +12,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.resources.Identifier;
 
-final class ClientHooks implements HudText {
+final class ClientHooks implements HudCanvas {
     private final ClientRuntime runtime;
     private GuiGraphicsExtractor graphics;
 
@@ -30,14 +30,18 @@ final class ClientHooks implements HudText {
         KeyMapping clickGui = KeyMappingHelper.registerKeyMapping(
                 new KeyMapping(KeyBindings.TOGGLE_GUI, InputConstants.KEY_RSHIFT, category));
         runtime.keys().register(KeyBindings.TOGGLE_GUI, clickGui::isDown, clickGui::consumeClick,
-                () -> openGui(runtime, clickGui));
+                () -> openGui(runtime, clickGui, clickGui));
+        KeyMapping hudEditor = KeyMappingHelper.registerKeyMapping(
+                new KeyMapping(KeyBindings.OPEN_HUD_EDITOR, InputConstants.UNKNOWN.getValue(), category));
+        runtime.keys().register(KeyBindings.OPEN_HUD_EDITOR, hudEditor::isDown, hudEditor::consumeClick,
+                () -> openGui(runtime, clickGui, hudEditor));
         ClientTickEvents.END_CLIENT_TICK.register(client -> runtime.tick(playing(client) && client.isWindowActive()));
         HudElementRegistry.attachElementAfter(
                 VanillaHudElements.BOSS_BAR, Identifier.fromNamespaceAndPath("averion_client", HudFeature.ID), hooks::render);
         ClientLifecycleEvents.CLIENT_STOPPING.register(client -> runtime.close());
     }
 
-    private static void openGui(ClientRuntime runtime, KeyMapping mapping) {
+    private static void openGui(ClientRuntime runtime, KeyMapping clickGui, KeyMapping mapping) {
         Minecraft client = Minecraft.getInstance();
         if (mapping.isUnbound()) {
             return;
@@ -47,7 +51,7 @@ final class ClientHooks implements HudText {
                 return;
             }
         }
-        TargetScreen.show(client, new TargetGui(runtime, client, mapping));
+        TargetScreen.show(client, new TargetGui(runtime, client, clickGui, mapping != clickGui));
     }
 
     private static boolean playing(Minecraft client) {
@@ -59,7 +63,7 @@ final class ClientHooks implements HudText {
         if (playing(client) && !client.getDebugOverlay().showDebugScreen()) {
             graphics = extractor;
             try {
-                runtime.render(this);
+                runtime.render(this, extractor.guiWidth(), extractor.guiHeight());
             } finally {
                 graphics = null;
             }
@@ -69,5 +73,32 @@ final class ClientHooks implements HudText {
     @Override
     public void draw(String text, int x, int y, int color, boolean shadow) {
         graphics.text(Minecraft.getInstance().font, text, x, y, color, shadow);
+    }
+
+    @Override
+    public int textWidth(String text) {
+        return Minecraft.getInstance().font.width(text);
+    }
+
+    @Override
+    public int lineHeight() {
+        return Minecraft.getInstance().font.lineHeight;
+    }
+
+    @Override
+    public void drawScaled(String text, float x, float y, int color, boolean shadow, float scale) {
+        drawScaled(graphics, text, x, y, color, shadow, scale);
+    }
+
+    static void drawScaled(GuiGraphicsExtractor graphics, String text, float x, float y, int color, boolean shadow, float scale) {
+        var pose = graphics.pose();
+        pose.pushMatrix();
+        try {
+            pose.translate(x, y);
+            pose.scale(scale, scale);
+            graphics.text(Minecraft.getInstance().font, text, 0, 0, color, shadow);
+        } finally {
+            pose.popMatrix();
+        }
     }
 }

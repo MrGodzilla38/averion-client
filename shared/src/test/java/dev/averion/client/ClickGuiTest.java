@@ -124,8 +124,8 @@ class ClickGuiTest {
 
     private static List<String> hudLines(ClientRuntime runtime) {
         List<String> output = new ArrayList<>();
-        runtime.render((text, x, y, color, shadow) ->
-                output.add(text + " @" + y + " " + Integer.toHexString(color) + " " + shadow));
+        runtime.render(ClientRuntimeTest.canvas((text, x, y, color, shadow) ->
+                output.add(text + " @" + y + " " + Integer.toHexString(color) + " " + shadow)), 640, 360);
         return output;
     }
 

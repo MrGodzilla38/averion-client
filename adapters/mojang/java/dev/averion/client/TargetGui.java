@@ -10,21 +10,24 @@ import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 
-final class TargetGui extends Screen implements GuiCanvas {
+final class TargetGui extends Screen implements GuiCanvas, HudCanvas {
     private final KeyMapping mapping;
     private final GuiInput input;
     private GuiGraphicsExtractor graphics;
 
-    TargetGui(ClientRuntime runtime, Minecraft game, KeyMapping mapping) {
+    TargetGui(ClientRuntime runtime, Minecraft game, KeyMapping mapping, boolean editHud) {
         super(Component.literal("Averion"));
         this.mapping = mapping;
         input = new GuiInput(runtime, mapping.isDown(), () -> TargetScreen.show(game, null),
                 game::isWindowActive, game.keyboardHandler::getClipboard);
+        if (editHud) {
+            input.openHudEditor();
+        }
     }
 
     @Override
     protected void init() {
-        input.gui.resize(width, height);
+        input.resize(width, height);
     }
 
     @Override
@@ -34,14 +37,16 @@ final class TargetGui extends Screen implements GuiCanvas {
 
     @Override
     public void extractBackground(GuiGraphicsExtractor extractor, int mouseX, int mouseY, float delta) {
-        extractBlurredBackground(extractor);
+        if (!input.editingHud()) {
+            extractBlurredBackground(extractor);
+        }
     }
 
     @Override
     public void extractRenderState(GuiGraphicsExtractor extractor, int mouseX, int mouseY, float tickDelta) {
         graphics = extractor;
         try {
-            input.gui.render(this, mouseX, mouseY);
+            input.render(this, this, mouseX, mouseY);
         } finally {
             graphics = null;
         }
@@ -78,7 +83,7 @@ final class TargetGui extends Screen implements GuiCanvas {
 
     @Override
     public boolean charTyped(CharacterEvent character) {
-        return input.gui.type(character.codepoint());
+        return input.type(character.codepoint());
     }
 
     @Override
@@ -93,7 +98,7 @@ final class TargetGui extends Screen implements GuiCanvas {
 
     @Override
     public boolean mouseDragged(MouseButtonEvent button, double dx, double dy) {
-        return input.gui.drag(button.x(), guiButton(button));
+        return input.drag(button.x(), button.y(), guiButton(button));
     }
 
     private static int guiButton(MouseButtonEvent button) {
@@ -110,7 +115,7 @@ final class TargetGui extends Screen implements GuiCanvas {
 
     @Override
     public boolean mouseScrolled(double x, double y, double horizontal, double vertical) {
-        return input.gui.scroll(x, y, vertical);
+        return input.scroll(x, y, vertical);
     }
 
     @Override
@@ -126,5 +131,20 @@ final class TargetGui extends Screen implements GuiCanvas {
     @Override
     public int textWidth(String text) {
         return font.width(text);
+    }
+
+    @Override
+    public int lineHeight() {
+        return font.lineHeight;
+    }
+
+    @Override
+    public void draw(String text, int x, int y, int color, boolean shadow) {
+        graphics.text(font, text, x, y, color, shadow);
+    }
+
+    @Override
+    public void drawScaled(String text, float x, float y, int color, boolean shadow, float scale) {
+        ClientHooks.drawScaled(graphics, text, x, y, color, shadow, scale);
     }
 }

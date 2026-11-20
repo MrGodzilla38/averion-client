@@ -1,6 +1,6 @@
 package dev.averion.client;
 
-final class HudFeature extends Feature {
+final class HudFeature extends HudElement {
     static final String ID = "hud";
 
     private enum Content {
@@ -22,26 +22,19 @@ final class HudFeature extends Feature {
 
     HudFeature(String minecraftVersion) {
         super(ID, "Averion Client", "Shows Averion branding and the active Minecraft version during play.",
-                Category.HUD, false);
+                8, 8);
         versionLine = "Minecraft " + minecraftVersion;
     }
 
-    void render(HudText text) {
-        if (!isEnabled()) {
-            return;
-        }
-        preview(text);
-    }
-
     @Override
-    void preview(HudText text) {
+    void drawContent(HudText text) {
         Content shown = content.value();
         if (shown != Content.VERSION) {
-            text.draw(name, 8, 8, 0xFFF2F5FC, shadow.value());
+            text.draw(name, 0, 0, 0xFFF2F5FC, shadow.value());
         }
         if (shown != Content.NAME) {
-            int y = shown == Content.VERSION ? 8 : 8 + spacing.value();
-            text.draw(versionLine, 8, y, 0xFF000000 | versionColor.value(), shadow.value());
+            int y = shown == Content.VERSION ? 0 : spacing.value();
+            text.draw(versionLine, 0, y, 0xFF000000 | versionColor.value(), shadow.value());
         }
     }
 }

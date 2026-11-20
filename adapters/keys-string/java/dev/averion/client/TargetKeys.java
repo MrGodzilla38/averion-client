@@ -19,20 +19,24 @@ final class TargetKeys {
                 new KeyBinding(KeyBindings.TOGGLE_GUI, GLFW.GLFW_KEY_RIGHT_SHIFT, KeyBindings.CATEGORY));
         TargetKeys keys = new TargetKeys(clickGui);
         runtime.keys().register(KeyBindings.TOGGLE_GUI, clickGui::isPressed, clickGui::wasPressed,
-                () -> keys.open(runtime));
+                () -> keys.open(runtime, clickGui));
+        KeyBinding hudEditor = KeyBindingHelper.registerKeyBinding(
+                new KeyBinding(KeyBindings.OPEN_HUD_EDITOR, GLFW.GLFW_KEY_UNKNOWN, KeyBindings.CATEGORY));
+        runtime.keys().register(KeyBindings.OPEN_HUD_EDITOR, hudEditor::isPressed, hudEditor::wasPressed,
+                () -> keys.open(runtime, hudEditor));
     }
 
-    private void open(ClientRuntime runtime) {
-        if (gui.isUnbound()) {
+    private void open(ClientRuntime runtime, KeyBinding mapping) {
+        if (mapping.isUnbound()) {
             return;
         }
-        for (Object mapping : YarnUi.keyBindings()) {
-            KeyBinding other = (KeyBinding) mapping;
-            if (other != gui && gui.equals(other)) {
+        for (Object binding : YarnUi.keyBindings()) {
+            KeyBinding other = (KeyBinding) binding;
+            if (other != mapping && mapping.equals(other)) {
                 return;
             }
         }
-        YarnUi.show(new TargetGui(runtime, gui.isPressed(), this));
+        YarnUi.show(new TargetGui(runtime, gui.isPressed(), this, mapping != gui));
     }
 
     boolean matchesKey(int key, int scanCode) {

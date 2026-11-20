@@ -29,6 +29,7 @@ final class SettingsStore {
     private static final String HUD_FIELD = "hudEnabled";
     private static final String FEATURES_FIELD = "features";
     private static final String ENABLED_FIELD = "enabled";
+    private static final String PLACEMENT_FIELD = "placement";
     private static final String SETTINGS_FIELD = "settings";
     private static final int SCHEMA_VERSION = 1;
     private static final int MAX_BYTES = 64 * 1024;
@@ -83,6 +84,10 @@ final class SettingsStore {
             for (Setting<?> setting : feature.settings()) {
                 setting.load(stored.get(setting.id));
             }
+            if (feature instanceof HudElement) {
+                HudElement element = (HudElement) feature;
+                element.placement = HudPlacement.load(object(module, PLACEMENT_FIELD), element.defaultPlacement);
+            }
             JsonElement enabled = module.get(ENABLED_FIELD);
             if (feature.id.equals(HudFeature.ID)) {
                 feature.setEnabled(hudEnabled);
@@ -112,6 +117,9 @@ final class SettingsStore {
                 values.add(setting.id, setting.encode());
             }
             module.add(SETTINGS_FIELD, values);
+            if (feature instanceof HudElement) {
+                module.add(PLACEMENT_FIELD, ((HudElement) feature).placement.encode());
+            }
             modules.add(feature.id, module);
         }
         snapshot.add(FEATURES_FIELD, modules);
@@ -140,11 +148,10 @@ final class SettingsStore {
                 if (next.has(ENABLED_FIELD)) {
                     module.add(ENABLED_FIELD, next.get(ENABLED_FIELD));
                 }
-                JsonObject values = object(module, SETTINGS_FIELD);
-                for (Map.Entry<String, JsonElement> value : object(next, SETTINGS_FIELD).entrySet()) {
-                    values.add(value.getKey(), value.getValue());
+                mergeFields(module, next, SETTINGS_FIELD);
+                if (next.has(PLACEMENT_FIELD)) {
+                    mergeFields(module, next, PLACEMENT_FIELD);
                 }
-                module.add(SETTINGS_FIELD, values);
                 modules.add(entry.getKey(), module);
             }
             document.add(FEATURES_FIELD, modules);
@@ -163,6 +170,14 @@ final class SettingsStore {
         } finally {
             Files.deleteIfExists(staged);
         }
+    }
+
+    private static void mergeFields(JsonObject module, JsonObject next, String field) {
+        JsonObject values = object(module, field);
+        for (Map.Entry<String, JsonElement> value : object(next, field).entrySet()) {
+            values.add(value.getKey(), value.getValue());
+        }
+        module.add(field, values);
     }
 
     private static JsonObject object(JsonObject parent, String key) {

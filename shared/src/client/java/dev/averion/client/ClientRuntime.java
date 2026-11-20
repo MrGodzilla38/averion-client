@@ -2,8 +2,10 @@ package dev.averion.client;
 
 import com.google.gson.JsonObject;
 import java.io.IOException;
-import java.util.List;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -19,6 +21,7 @@ final class ClientRuntime implements AutoCloseable {
     private final Notifications notifications = new Notifications(System::nanoTime);
     private final HudFeature hud;
     private final FpsFeature fps;
+    private final List<HudElement> hudElements;
     private final ScheduledThreadPoolExecutor writer = new ScheduledThreadPoolExecutor(1, task -> {
         Thread worker = new Thread(task, "Averion config writer");
         worker.setDaemon(true);
@@ -33,7 +36,15 @@ final class ClientRuntime implements AutoCloseable {
         settings = new SettingsStore(configDirectory);
         hud = features.register(new HudFeature(minecraftVersion));
         fps = features.register(new FpsFeature());
-        settings.loadFeatures(features.all());
+        List<Feature> registered = features.all();
+        List<HudElement> elements = new ArrayList<>();
+        for (Feature feature : registered) {
+            if (feature instanceof HudElement) {
+                elements.add((HudElement) feature);
+            }
+        }
+        hudElements = Collections.unmodifiableList(elements);
+        settings.loadFeatures(registered);
         writer.setRemoveOnCancelPolicy(true);
     }
 
@@ -43,6 +54,22 @@ final class ClientRuntime implements AutoCloseable {
 
     List<Feature> features() {
         return features.all();
+    }
+
+    List<HudElement> hudElements() {
+        return hudElements;
+    }
+
+    void applyHudLayout(HudPlacement[] placements, boolean[] visible) {
+        if (closed) {
+            return;
+        }
+        for (int i = 0; i < hudElements.size(); i++) {
+            HudElement element = hudElements.get(i);
+            element.placement = placements[i];
+            element.setEnabled(visible[i]);
+        }
+        requestSave();
     }
 
     void toggleHud() {
@@ -115,14 +142,17 @@ final class ClientRuntime implements AutoCloseable {
         fps.frame(System.nanoTime());
     }
 
-    void render(HudText text) {
+    void render(HudCanvas canvas, int width, int height) {
         if (!closed) {
             recordFrame();
-            hud.render(text);
-            if (fps.isEnabled()) {
-                fps.preview((line, x, y, color, shadow) -> text.draw(line, x, y + 50, color, shadow));
+            for (int i = 0; i < hudElements.size(); i++) {
+                HudElement element = hudElements.get(i);
+                if (element.isEnabled()) {
+                    element.renderer.measure(canvas, element, element.placement, width, height);
+                    element.renderer.draw(canvas, element);
+                }
             }
-            notifications.render(text);
+            notifications.render(canvas);
         }
     }
 

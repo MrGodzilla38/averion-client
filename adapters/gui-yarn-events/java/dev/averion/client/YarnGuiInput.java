@@ -21,7 +21,7 @@ abstract class YarnGuiInput extends YarnBackdrop {
 
     @Override
     protected void init() {
-        input.gui.resize(width, height);
+        input.resize(width, height);
     }
 
     @Override
@@ -42,7 +42,7 @@ abstract class YarnGuiInput extends YarnBackdrop {
     @Override
     public boolean charTyped(CharInput character) {
         return !YarnShortcuts.usesShortcutModifier(character.modifiers())
-                && input.gui.type(character.codepoint());
+                && input.type(character.codepoint());
     }
 
     @Override
@@ -57,11 +57,11 @@ abstract class YarnGuiInput extends YarnBackdrop {
 
     @Override
     public boolean mouseDragged(Click click, double dx, double dy) {
-        return input.gui.drag(click.x(), click.button());
+        return input.drag(click.x(), click.y(), click.button());
     }
 
     @Override
     public boolean mouseScrolled(double x, double y, double horizontal, double vertical) {
-        return input.gui.scroll(x, y, vertical);
+        return input.scroll(x, y, vertical);
     }
 }
