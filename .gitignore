@@ -1,6 +1,7 @@
 # Gradle state and generated outputs
 .gradle/
 build/
+/sürümler/
 local.properties
 
 # IDE metadata and compiler outputs
